@@ -84,7 +84,7 @@
   },
   {
     "id": 4,
-    "brand": "H'Maston",
+    "brand": "Acessórios",
     "name": "Carregador Turbo H'Maston Tipo-C/V8/Lightning",
     "category": "Acessório",
     "price": {
@@ -129,7 +129,8 @@
     "color": "Azul"
   },
   {
-    "id": 7,
+    "id": 6,
+    "brand": "Realme",
     "name": "Realme Note 60 X",
     "category": "Novo",
     "price": {
@@ -157,9 +158,10 @@
     "color": "Preto"
   },
   {
-    "id": 8,
+    "id": 7,
+    "brand": "Acessórios",
     "name": "Fone Lehmox Caveira",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 69,90"
     },
@@ -176,9 +178,9 @@
     "color": "Preto"
   },
   {
-    "id": 9,
+    "id": 8,
     "name": "Caixa de Som α GOLD PRO SM-30A",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 589,00"
     },
@@ -196,9 +198,10 @@
     "color": "Preto"
   },
   {
-    "id": 10,
+    "id": 9,
+    "brand": "Acessórios",
     "name": "Carregador Veicular Turbo 66W B1",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 119,90"
     },
@@ -220,8 +223,9 @@
   },
   {
     "id": 11,
+    "brand": "Acessórios",
     "name": "Power Bank HREBOS PB-955",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 149,00",
       "parcelado": "4x R$ 40,00"
@@ -243,6 +247,7 @@
   },
   {
     "id": 12,
+    "brand": "Samsung",
     "name": "Samsung A13",
     "category": "Seminovo",
     "price": {
@@ -266,8 +271,9 @@
   },
   {
     "id": 13,
+    "brand": "Acessórios",
     "name": "Power Bank PINENG 30.000mAh",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 275,00",
       "parcelado": "6x R$ 48,50"
@@ -289,8 +295,9 @@
   },
   {
     "id": 14,
+    "brand": "Acessórios",
     "name": "Adaptadores USB – Modelos Diversos",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 15,00"
     },
@@ -308,8 +315,9 @@
   },
   {
     "id": 15,
+    "brand": "Acessórios",
     "name": "Cabo Adaptador de Áudio IT-BLUE MAX-0302F",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 20,00"
     },
@@ -328,8 +336,9 @@
   },
   {
     "id": 16,
+    "brand": "Acessórios",
     "name": "Fone de Ouvido Estéreo LELONG LE-0240",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 20,00"
     },
@@ -347,8 +356,9 @@
   },
   {
     "id": 17,
+    "brand": "Acessórios",
     "name": "Carregador Veicular LEVMOX LE-156",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 25,00"
     },
@@ -368,8 +378,9 @@
   },
   {
     "id": 18,
+    "brand": "Acessórios",
     "name": "Adaptador Lightning para P2 LEHMOX LEY-234",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 20,00"
     },
@@ -388,8 +399,9 @@
   },
   {
     "id": 19,
+    "brand": "Acessórios",
     "name": "Receptor de Música Sem Fio DANAT",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 25,00"
     },
@@ -410,8 +422,9 @@
   },
   {
     "id": 20,
+    "brand": "Acessórios",
     "name": "Carregador Universal LCD USB",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 25,00"
     },
@@ -430,8 +443,9 @@
   },
   {
     "id": 21,
+    "brand": "Acessórios",
     "name": "Fone de Ouvido EarX Lightning",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 25,00"
     },
@@ -449,8 +463,9 @@
   },
   {
     "id": 22,
+    "brand": "Acessórios",
     "name": "Cabos Micro USB KMASTON – Supercarga 4.8A",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 20,00"
     },
@@ -467,8 +482,9 @@
   },
   {
     "id": 23,
+    "brand": "Acessórios",
     "name": "Hub USB 2.0 Relog’s – 4 Portas",
-    "category": "Acessório",
+    "category": "Novo",
     "price": {
       "avista": "R$ 25,00"
     },
@@ -486,59 +502,62 @@
     "color": "Preto"
   },
   {
-  "id": 24,
-  "name": "POCO C75 128GB/6GB",
-  "category": "Novo",
-  "description": "O POCO C75 é potente, com câmeras de alta qualidade e bateria duradoura.",
-  "specs": [
-    "Tela LCD IPS 6,88\" HD+ 120Hz",
-    "Processador MediaTek Helio G81-Ultra",
-    "6GB RAM",
-    "128GB Armazenamento",
-    "Câmera traseira 50MP",
-    "Câmera frontal 13MP",
-    "Bateria 5160mAh, Carregamento 18W",
-    "HyperOS Android 14",
-    "Dual SIM"
-  ],
-  "price": {
-    "avista": "R$ 890,00",
-    "parcelado": "12x R$ 85,00"
+    "id": 24,
+    "brand": "Xiaomi",
+    "name": "POCO C75 128GB/6GB",
+    "category": "Novo",
+    "description": "O POCO C75 é potente, com câmeras de alta qualidade e bateria duradoura.",
+    "specs": [
+      "Tela LCD IPS 6,88\" HD+ 120Hz",
+      "Processador MediaTek Helio G81-Ultra",
+      "6GB RAM",
+      "128GB Armazenamento",
+      "Câmera traseira 50MP",
+      "Câmera frontal 13MP",
+      "Bateria 5160mAh, Carregamento 18W",
+      "HyperOS Android 14",
+      "Dual SIM"
+    ],
+    "price": {
+      "avista": "R$ 890,00",
+      "parcelado": "12x R$ 85,00"
+    },
+    "images": [
+      "imagens/poco_c75-1286-pretoverde-1.png",
+      "imagens/poco_c75-1286-pretoverde-2.png"
+    ],
+    "color": "Preto/Verde"
   },
-  "images": [
-    "imagens/poco_c75-1286-pretoverde-1.png",
-    "imagens/poco_c75-1286-pretoverde-2.png"
-  ],
-  "color": "Preto/Verde"
-},
-{
-  "id": 25,
-  "name": "POCO C75 256GB/8GB",
-  "category": "Novo",
-  "description": "O POCO C75 é potente, com câmeras de alta qualidade e bateria duradoura.",
-  "specs": [
-    "Tela LCD IPS 6,88\" HD+ 120Hz",
-    "Processador MediaTek Helio G81-Ultra",
-    "8GB RAM",
-    "256GB Armazenamento",
-    "Câmera traseira 50MP",
-    "Câmera frontal 13MP",
-    "Bateria 5160mAh, Carregamento 18W",
-    "HyperOS Android 14",
-    "Dual SIM"
-  ],
-  "price": {
-    "avista": "R$ 990,00",
-    "parcelado": "12x R$ 95,00"
+  {
+    "id": 25,
+    "brand": "Xiamoi",
+    "name": "POCO C75 256GB/8GB",
+    "category": "Novo",
+    "description": "O POCO C75 é potente, com câmeras de alta qualidade e bateria duradoura.",
+    "specs": [
+      "Tela LCD IPS 6,88\" HD+ 120Hz",
+      "Processador MediaTek Helio G81-Ultra",
+      "8GB RAM",
+      "256GB Armazenamento",
+      "Câmera traseira 50MP",
+      "Câmera frontal 13MP",
+      "Bateria 5160mAh, Carregamento 18W",
+      "HyperOS Android 14",
+      "Dual SIM"
+    ],
+    "price": {
+      "avista": "R$ 990,00",
+      "parcelado": "12x R$ 95,00"
+    },
+    "images": [
+      "imagens/poco_c75-2568-pretoverdegold-1.png",
+      "imagens/poco_c75-2568-pretoverdegold-2.png"
+    ],
+    "color": "Preto/Verde/Dourado"
   },
-  "images": [
-    "imagens/poco_c75-2568-pretoverdegold-1.png",
-    "imagens/poco_c75-2568-pretoverdegold-2.png"
-  ],
-  "color": "Preto/Verde/Dourado"
-},
-{
+  {
     "id": 26,
+    "brand": "Realme",
     "name": "Realme Note 70 128GB/4GB",
     "category": "Novo",
     "price": {
@@ -566,6 +585,7 @@
   },
   {
     "id": 27,
+    "brand": "Realme",
     "name": "Realme Note 70 256GB/8GB",
     "category": "Novo",
     "price": {
@@ -593,6 +613,7 @@
   },
   {
     "id": 28,
+    "brand": "Xiaomi",
     "name": "Redmi 13 256GB/8GB",
     "category": "Novo",
     "price": {
@@ -620,58 +641,63 @@
     "color": "Preto/Gold/Azul"
   },
   {
-  "id": 29,
-  "name": "POCO M7 PRO 5G 256GB/8GB",
-  "category": "Novo",
-  "price": {
-    "avista": "R$ 1.450,00",
-    "parcelado": "12x R$ 135,33"
+    "id": 29,
+    "brand": "Xiaomi",
+    "name": "POCO M7 PRO 5G 256GB/8GB",
+    "category": "Novo",
+    "price": {
+      "avista": "R$ 1.450,00",
+      "parcelado": "12x R$ 135,33"
+    },
+    "description": "O POCO M7 PRO 5G 256/8 oferece alto desempenho, conectividade 5G e excelente autonomia para quem busca velocidade e eficiência.",
+    "specs": [
+      "Tela LCD IPS 6,67\" FHD+ 120Hz",
+      "Processador MediaTek Dimensity 6100+",
+      "8GB RAM",
+      "256GB Armazenamento",
+      "Câmera traseira dupla 50MP + 2MP",
+      "Câmera frontal 8MP",
+      "Bateria 5000mAh",
+      "Carregamento rápido 33W",
+      "HyperOS Android 14",
+      "Dual SIM"
+    ],
+    "images": [
+      "imagens/poco_m7_pro-2568-preto-1.png",
+      "imagens/poco_m7_pro-2568-verde-2.png"
+    ],
+    "color": "Preto/Verde"
   },
-  "description": "O POCO M7 PRO 5G 256/8 oferece alto desempenho, conectividade 5G e excelente autonomia para quem busca velocidade e eficiência.",
-  "specs": [
-    "Tela LCD IPS 6,67\" FHD+ 120Hz",
-    "Processador MediaTek Dimensity 6100+",
-    "8GB RAM",
-    "256GB Armazenamento",
-    "Câmera traseira dupla 50MP + 2MP",
-    "Câmera frontal 8MP",
-    "Bateria 5000mAh",
-    "Carregamento rápido 33W",
-    "Android 13 com MIUI",
-    "Dual SIM 5G"
-  ],
-  "images": [
-    "imagens/poco_m7pro-2568-preto-1.png"
-  ],
-  "color": "Preto/Dourado"
-},
-{
-  "id": 30,
-  "name": "POCO M7 PRO 5G 256GB/12GB",
-  "category": "Novo",
-  "price": {
-    "avista": "R$ 1.550,00",
-    "parcelado": "12x R$ 144,66"
-  },
-  "description": "O POCO M7 PRO 5G 256/12 é ideal para quem exige máximo desempenho, conectividade 5G e fluidez em multitarefas.",
-  "specs": [
-    "Tela LCD IPS 6,67\" FHD+ 120Hz",
-    "Processador MediaTek Dimensity 6100+",
-    "12GB RAM",
-    "256GB Armazenamento",
-    "Câmera traseira dupla 50MP + 2MP",
-    "Câmera frontal 8MP",
-    "Bateria 5000mAh",
-    "Carregamento rápido 33W",
-    "Android 13 com MIUI",
-    "Dual SIM 5G"
-  ],
-  "images": [
-    "imagens/poco_m7pro-2568-preto-1.png"
-  ],
-  "color": "Preto/Dourado"
- }
+  {
+    "id": 30,
+    "brand": "Xiaomi",
+    "name": "Redmi 14C 128GB/4GB",
+    "category": "Novo",
+    "price": {
+      "avista": "R$ 890,00",
+      "parcelado": "12x R$ 82,50"
+    },
+    "description": "O Redmi 14C 128/4 combina design moderno, câmeras de qualidade e desempenho ágil para uso diário.",
+    "specs": [
+      "Tela LCD 6,6\" Full HD+",
+      "Processador MediaTek Helio G85",
+      "4GB RAM",
+      "128GB Armazenamento",
+      "Câmera traseira dupla 50MP + 2MP",
+      "Câmera frontal 8MP",
+      "Bateria 5000mAh",
+      "Carregamento rápido 18W",
+      "Android 13",
+      "Dual SIM"
+    ],
+    "images": [
+      "imagens/redmi14c-1284-preto-1.png",
+      "imagens/redmi14c-1284-verde-2.png"
+    ],
+    "color": "Preto/Verde"
+  }
 ]
+
 
 
 
