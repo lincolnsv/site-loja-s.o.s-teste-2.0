@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "brand": "Realme",
     "name": "Realme C75X",
     "category": "Novo",
     "price": {
@@ -29,6 +30,7 @@
   },
   {
     "id": 2,
+    "brand": "Realme",
     "name": "Realme Note 14S",
     "category": "Novo",
     "price": {
@@ -58,6 +60,7 @@
   },
   {
     "id": 3,
+    "brand": "Xiaomi",
     "name": "Redmi 9A",
     "category": "Seminovo",
     "price": {
@@ -81,6 +84,7 @@
   },
   {
     "id": 4,
+    "brand": "H'Maston",
     "name": "Carregador Turbo H'Maston Tipo-C/V8/Lightning",
     "category": "Acessório",
     "price": {
@@ -101,6 +105,7 @@
   },
   {
     "id": 5,
+    "brand": "Samsung",
     "name": "Samsung A04e",
     "category": "Seminovo",
     "price": {
@@ -667,6 +672,7 @@
   "color": "Preto/Dourado"
  }
 ]
+
 
 
 
