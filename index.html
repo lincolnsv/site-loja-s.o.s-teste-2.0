@@ -7,31 +7,24 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <style>
-  /* Visual base */
   body { background: linear-gradient(to bottom, #bfdbfe, #eff6ff); scroll-behavior: smooth; }
   .card-hover { position: relative; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
   .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
   .favorite-btn.active { color: #ef4444; }
-  /* Modal */
   .product-modal { transition: all 0.25s ease; opacity: 0; visibility: hidden; position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 60; }
   .product-modal.active { opacity: 1; visibility: visible; }
   .modal-overlay { background-color: rgba(0,0,0,0.65); position: absolute; inset:0; }
   .modal-card { background: white; border-radius: 1rem; max-width: 95%; width: 900px; max-height: 90vh; overflow-y: auto; padding: 1.25rem; position: relative; }
-  /* Mobile menu */
   .mobile-menu { display: none; flex-direction: column; gap: 0.5rem; }
   .menu-toggle { display: none; cursor: pointer; font-size: 1.25rem; }
-  @media(max-width: 768px){
-    nav.desktop-menu { display: none; }
-    .menu-toggle { display: block; color: white; }
-    .mobile-menu.show { display: flex; }
-  }
-  /* scroll top */
+  @media(max-width: 768px){ nav.desktop-menu { display: none; } .menu-toggle { display: block; color: white; } .mobile-menu.show { display: flex; } }
   .scroll-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #2563eb; color: white; padding: 0.6rem 0.8rem; border-radius: 9999px; cursor: pointer; display: none; z-index: 80; transition: transform 0.15s; }
   .scroll-to-top:hover { transform: scale(1.06); }
-  /* small helpers */
   .pill { padding: .25rem .75rem; border-radius: 999px; font-weight:600; font-size:.85rem; }
   .hidden-on-small { display: inline-block; }
   @media(max-width:640px){ .hidden-on-small { display:none; } }
+  /* Botão ativo categoria */
+  .category-btn.active { background-color: #2563eb; color: white; font-weight: 600; }
 </style>
 </head>
 <body class="font-sans text-gray-800">
@@ -42,15 +35,13 @@
 <!-- Header -->
 <header class="bg-blue-600 text-white sticky top-0 z-50 shadow">
   <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-    <div class="flex items-center gap-4">
-      <a href="#" class="flex items-center gap-3">
-        <img src="imagens/logo.png" alt="S.O.S Celulares" class="h-16 w-auto" />
-        <div>
-          <div class="text-xl font-extrabold">S.O.S Celulares</div>
-          <div class="text-xs hidden-on-small">Novos e Seminovos com Garantia</div>
-        </div>
-      </a>
-    </div>
+    <a href="#" class="flex items-center gap-3">
+      <img src="imagens/logo.png" alt="S.O.S Celulares" class="h-16 w-auto" />
+      <div>
+        <div class="text-xl font-extrabold">S.O.S Celulares</div>
+        <div class="text-xs hidden-on-small">Novos e Seminovos com Garantia</div>
+      </div>
+    </a>
 
     <nav class="desktop-menu flex items-center gap-6">
       <a href="#novos" class="hover:underline font-bold">Novos</a>
@@ -65,11 +56,9 @@
         <input id="searchInput" type="search" placeholder="Pesquisar produtos..." class="outline-none text-sm px-2" />
         <button id="searchBtn" class="text-blue-600 px-2"><i class="fas fa-search"></i></button>
       </div>
-
       <button id="menuToggle" class="menu-toggle md:hidden"><i class="fas fa-bars"></i></button>
     </div>
   </div>
-  <!-- mobile menu -->
   <div id="mobileMenu" class="mobile-menu px-4 pb-4 bg-blue-600">
     <a href="#novos" class="text-white font-semibold">Novos</a>
     <a href="#seminovos" class="text-white font-semibold">Seminovos</a>
@@ -105,16 +94,14 @@
     <div>
       <h2 class="text-2xl font-bold mb-2">Produtos</h2>
       <div class="flex gap-2 overflow-x-auto pb-2">
-        <button class="category-btn pill bg-white text-blue-700" data-cat="all">Todos</button>
+        <button class="category-btn pill bg-white text-blue-700 active" data-cat="all">Todos</button>
         <button class="category-btn pill bg-white" data-cat="iPhone">iPhone</button>
         <button class="category-btn pill bg-white" data-cat="Samsung">Samsung</button>
         <button class="category-btn pill bg-white" data-cat="Xiaomi">Xiaomi</button>
         <button class="category-btn pill bg-white" data-cat="Motorola">Motorola</button>
-        <button class="category-btn pill bg-white" data-cat="Acessório">Realme</button>
-        <button class="category-btn pill bg-white" data-cat="Acessório">Acessórios</button>
+        <button class="category-btn pill bg-white" data-cat="Acessórios">Acessórios</button>
       </div>
     </div>
-
     <div class="flex items-center gap-3">
       <div class="text-sm text-gray-600">Ordenar:</div>
       <select id="sortSelect" class="px-3 py-1 rounded border">
@@ -125,56 +112,17 @@
     </div>
   </div>
 
-  <!-- Sections: Novos / Seminovos / Acessórios (same grid rendered by JS) -->
+  <!-- Catalog grid -->
   <section id="catalogSection" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></section>
-
-  <!-- Ver mais placeholder (JS will control lazy reveal) -->
-  <div id="loadMoreWrap" class="mt-6 text-center"></div>
-
-  <!-- Promo / Vantagens -->
-  <section id="promocoes" class="bg-white rounded-lg shadow p-6 mt-10">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="text-center">
-        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-          <i class="fas fa-truck text-blue-600 text-2xl"></i>
-        </div>
-        <h3 class="font-bold">Frete Rápido</h3>
-        <p class="text-sm text-gray-600">Entrega em 2–5 dias úteis para a maioria das regiões.</p>
-      </div>
-      <div class="text-center">
-        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-          <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
-        </div>
-        <h3 class="font-bold">Compra Segura</h3>
-        <p class="text-sm text-gray-600">Atendimento pessoal e envio com garantia.</p>
-      </div>
-      <div class="text-center">
-        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-          <i class="fas fa-headset text-blue-600 text-2xl"></i>
-        </div>
-        <h3 class="font-bold">Suporte via WhatsApp</h3>
-        <p class="text-sm text-gray-600">Atendimento pelo WhatsApp no número principal.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Newsletter -->
-  <section class="bg-blue-50 rounded-lg p-6 mt-8">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div>
-        <h3 class="text-xl font-bold">Fique por dentro das ofertas</h3>
-        <p class="text-sm text-gray-600">Assine nossa newsletter e receba promoções no seu e-mail.</p>
-      </div>
-      <form id="newsletterForm" class="flex gap-2">
-        <input id="newsletterEmail" type="email" placeholder="Seu melhor e-mail" required class="px-3 py-2 rounded-full border"/>
-        <button class="bg-blue-600 text-white px-4 py-2 rounded-full">Assinar</button>
-      </form>
-    </div>
-  </section>
 
 </main>
 
-<!-- Modal: Produto (WhatsApp only) -->
+<!-- WhatsApp floating -->
+<a href="https://wa.me/5564999518536" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition z-40" aria-label="WhatsApp">
+  <i class="fab fa-whatsapp text-2xl"></i>
+</a>
+
+<!-- Modal Produto -->
 <div id="productModal" class="product-modal" role="dialog" aria-hidden="true">
   <div class="modal-overlay" id="modalOverlay"></div>
   <div class="modal-card" role="document" aria-modal="true">
@@ -182,26 +130,20 @@
       <i class="fas fa-times text-xl"></i>
     </button>
     <div id="modalInner" class="grid md:grid-cols-2 gap-4">
-      <!-- Left: imagem -->
       <div>
         <img id="modalImage" src="" alt="" class="w-full rounded-md object-contain max-h-96" />
       </div>
-      <!-- Right: detalhes -->
       <div>
         <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
         <p id="modalDesc" class="text-sm text-gray-700 mb-3"></p>
-
         <div id="modalSpecs" class="text-sm text-gray-700 mb-3"></div>
-
         <div class="mb-3">
           <span class="text-xl font-bold text-blue-600" id="modalPrice"></span>
         </div>
-
         <div class="mb-3">
           <label class="block font-semibold mb-1">Seu nome (opcional)</label>
           <input id="modalCustomerName" type="text" placeholder="Digite seu nome" class="w-full px-3 py-2 border rounded" />
         </div>
-
         <div class="flex gap-3">
           <button id="buyWhatsappBtn" class="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
             <i class="fab fa-whatsapp"></i> Comprar via WhatsApp
@@ -210,123 +152,56 @@
             <i class="far fa-heart"></i> Favoritar
           </button>
         </div>
-
-        <p class="text-xs text-gray-500 mt-4">Ao clicar em "Comprar via WhatsApp" você será direcionado ao chat com a nossa equipe para confirmar disponibilidade e forma de pagamento.</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Footer -->
-<footer id="contato" class="bg-gray-800 text-white py-8 mt-8">
-  <div class="container mx-auto px-4">
-    <div class="flex flex-col md:flex-row justify-between gap-6">
-      <div>
-        <h3 class="text-xl font-bold">S.O.S Celulares</h3>
-        <p class="text-gray-300">Celulares novos e seminovos com garantia.</p>
-        <p class="text-gray-300 mt-2">Av. Quarta, 94 - Centro, Mineiros - GO</p>
-      </div>
-      <div>
-        <h4 class="font-semibold">Atendimento</h4>
-        <p class="text-gray-300">Seg-Sex: 07:30–17:30 • Sáb: 08:00–12:00</p>
-        <p class="text-gray-300 mt-2">WhatsApp: <a href="https://wa.me/5564999518536" target="_blank" class="text-green-400 font-semibold"> (64) 99951-8536</a></p>
-      </div>
-      <div>
-        <h4 class="font-semibold">Redes</h4>
-        <div class="flex gap-3 mt-2">
-          <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook"></i></a>
-        </div>
-      </div>
-    </div>
-
-    <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
-      <p>&copy; 2025 S.O.S Celulares. Todos os direitos reservados.</p>
-    </div>
-  </div>
-</footer>
-
-<!-- WhatsApp floating -->
-<a href="https://wa.me/5564999518536" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition z-40" aria-label="WhatsApp">
-  <i class="fab fa-whatsapp text-2xl"></i>
-</a>
-
-<!-- Scripts -->
 <script>
-/*--------------------------------------------------------------------
-  Merged JS: carrega produtos de produtos.json, filtros, favoritos,
-  modal (comprar via WhatsApp) e pequenas interações (search, mobile)
---------------------------------------------------------------------*/
-
-/* State */
 let allProducts = [];
-let displayedProducts = [];
-const WHATSAPP_NUMBER = "5564999518536"; // +55 64 99951-8536
+const WHATSAPP_NUMBER = "5564999518536";
+let currentBrand = "all";
 
-/* Helpers */
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-const formatCurrency = (v) => {
-  if (typeof v === 'number') {
-    // assume cents? In your JSON you might have strings. We try: if >1000 treat as reais integer
-    if (v < 1000) return 'R$ ' + v.toFixed(2).replace('.', ',');
-    return 'R$ ' + v.toFixed(2).replace('.', ',');
-  }
-  return v;
-};
 
-/* Load products from produtos.json */
-async function loadProducts() {
-  try {
+function formatCurrency(v){ return typeof v==='number'? 'R$ '+v.toFixed(2).replace('.',','): v; }
+
+async function loadProducts(){
+  try{
     const res = await fetch('produtos.json');
     const data = await res.json();
-    // normalize each product to expected fields
-    allProducts = data.map(p => {
-      return {
-        id: p.id ?? Math.random().toString(36).slice(2,9),
-        name: p.name ?? p.title ?? 'Produto',
-        category: p.category ?? 'Novo',
-        description: p.description ?? '',
-        images: p.images && p.images.length ? p.images : (p.image ? [p.image] : ['imagens/placeholder.png']),
-        price: (typeof p.price === 'object') ? (p.price.avista ?? '{"—"}') : (p.price ?? p.priceText ?? 'R$ 0,00'),
-        rawPrice: (p.price && typeof p.price === 'number') ? p.price : (p.price && p.price.avista ? parseFloat(p.price.avista.replace(/[^\d.,]/g,'')) || 0 : 0),
-        specs: p.specs ?? p.specifications ?? [],
-        color: p.color ?? p.colors ?? null,
-        condition: p.condition ?? (p.category && p.category.toLowerCase().includes('novo') ? 'Novo' : 'Seminovo'),
-      };
-    });
-    displayedProducts = [...allProducts];
-    renderProducts(displayedProducts);
-  } catch (err) {
-    console.error('Erro ao carregar produtos.json', err);
-    document.getElementById('catalogSection').innerHTML = '<p class="col-span-full text-center text-red-600">Erro ao carregar produtos. Verifique o arquivo produtos.json.</p>';
-  }
+    allProducts = data.map(p=>({
+      id: p.id ?? Math.random().toString(36).slice(2,9),
+      name: p.name ?? 'Produto',
+      category: p.category ?? 'Novo',
+      description: p.description ?? '',
+      images: p.images?.length ? p.images : p.image ? [p.image] : ['imagens/placeholder.png'],
+      price: (typeof p.price==='object') ? p.price.avista ?? 'R$ 0,00' : p.price ?? 'R$ 0,00',
+      rawPrice: parseFloat((typeof p.price==='object'?p.price.avista:p.price).replace(/[^\d.,]/g,'')) || 0
+    }));
+    renderProducts(allProducts);
+  }catch(e){ console.error(e); $('#catalogSection').innerHTML='<p class="col-span-full text-center text-red-600">Erro ao carregar produtos.</p>'; }
 }
 
-/* Render produto cards */
-function renderProducts(list) {
-  const container = document.getElementById('catalogSection');
-  container.innerHTML = '';
-  if (!list.length) {
-    container.innerHTML = '<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>';
-    return;
-  }
-
-  list.forEach(p => {
+function renderProducts(list){
+  const container = $('#catalogSection'); container.innerHTML='';
+  if(!list.length){ container.innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; return; }
+  list.forEach(p=>{
     const card = document.createElement('article');
-    card.className = 'card-hover bg-white rounded-lg overflow-hidden shadow transition';
-    card.innerHTML = `
+    card.className='card-hover bg-white rounded-lg overflow-hidden shadow transition';
+    card.innerHTML=`
       <div class="relative h-48 bg-gray-100 flex items-center justify-center p-3">
         <img loading="lazy" src="${p.images[0]}" alt="${p.name}" class="max-h-full max-w-full object-contain" />
         <button class="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-lg font-semibold opacity-0 hover:opacity-100 transition">Ver</button>
       </div>
       <div class="p-4">
         <h3 class="text-lg font-bold text-gray-800 mb-1">${p.name}</h3>
-        <p class="text-gray-600 text-sm mb-2 line-clamp-3">${p.description || ''}</p>
+        <p class="text-gray-600 text-sm mb-2 line-clamp-3">${p.description||''}</p>
         <div class="flex items-center justify-between">
-          <div class="text-blue-600 font-bold">${typeof p.price === 'number' ? formatCurrency(p.price) : p.price}</div>
+          <div class="text-blue-600 font-bold">${p.price}</div>
           <div class="flex gap-2 items-center">
-            <button class="btn-fav text-gray-500 hover:text-red-500" data-id="${p.id}" title="Favoritar"><i class="far fa-heart"></i></button>
+            <button class="btn-fav text-gray-500 hover:text-red-500" data-id="${p.id}"><i class="far fa-heart"></i></button>
             <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm" data-id="${p.id}">Detalhes</button>
           </div>
         </div>
@@ -334,149 +209,75 @@ function renderProducts(list) {
     `;
     container.appendChild(card);
   });
-
-  // attach listeners
-  $$('.btn-view').forEach(btn => btn.addEventListener('click', (e) => {
-    const id = e.currentTarget.dataset.id;
-    const prod = allProducts.find(x => x.id == id);
-    if (prod) openProductModal(prod);
+  // Listeners
+  $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
+    const id=e.currentTarget.dataset.id;
+    const prod=allProducts.find(x=>x.id==id);
+    if(prod) openProductModal(prod);
   }));
-
-  $$('.btn-fav').forEach(btn => {
-    const id = btn.dataset.id;
-    if (isFavorited(id)) btn.classList.add('favorite-btn','active');
-    btn.addEventListener('click', (e) => {
-      const pid = e.currentTarget.dataset.id;
-      toggleFavorite(pid);
-      e.currentTarget.classList.toggle('active');
-    });
+  $$('.btn-fav').forEach(btn=>{
+    const id=btn.dataset.id;
+    btn.addEventListener('click',()=>toggleFavorite(id,btn));
   });
 }
 
-/*-------------------------
-  Filtrar por marca + abas Novo/Seminovo
---------------------------*/
-let currentBrand = "";
-let currentCategory = "Novo";
-
-/* Função: selecionar marca */
-function carregarMarca(brand) {
-  currentBrand = brand;
-  currentCategory = "Novo"; // sempre inicia em Novos
-  $('#abas').classList.remove('hidden');
-  mostrarCategoria(currentCategory);
+function filterProducts(){
+  let list = currentBrand==='all'?allProducts:allProducts.filter(p=>p.category===currentBrand || p.name.includes(currentBrand));
+  // Ordenação
+  const sortVal = $('#sortSelect').value;
+  if(sortVal==='price-asc') list.sort((a,b)=>a.rawPrice-b.rawPrice);
+  if(sortVal==='price-desc') list.sort((a,b)=>b.rawPrice-a.rawPrice);
+  renderProducts(list);
 }
 
-/* Função: mostrar produtos por categoria */
-function mostrarCategoria(category) {
-  currentCategory = category;
-  const filtrados = allProducts.filter(p => 
-    p.brand === currentBrand && p.category === category
-  );
-  renderProducts(filtrados);
+function setupFilters(){
+  const buttons = $$('.category-btn');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      currentBrand = btn.dataset.cat;
+      filterProducts();
+    });
+  });
+  $('#sortSelect').addEventListener('change',()=>filterProducts());
 }
 
-
-/* Favorites (localStorage) */
 const FAVORITES_KEY = 'soscelulares_favs';
-function getFavorites() {
-  try { return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || []; } catch(e){ return []; }
-}
-function isFavorited(id) { return getFavorites().includes(id); }
-function toggleFavorite(id) {
+function getFavorites(){ try{ return JSON.parse(localStorage.getItem(FAVORITES_KEY))||[] }catch(e){return[];} }
+function toggleFavorite(id,btn=null){
   const favs = getFavorites();
-  const idx = favs.indexOf(id);
-  if (idx >= 0) favs.splice(idx,1); else favs.push(id);
-  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
-  // optional: show toast
+  const idx=favs.indexOf(id);
+  if(idx>=0) favs.splice(idx,1); else favs.push(id);
+  localStorage.setItem(FAVORITES_KEY,JSON.stringify(favs));
+  if(btn) btn.classList.toggle('active');
 }
 
-/* Modal: abrir com produto */
 const modal = $('#productModal');
-const modalOverlay = $('#modalOverlay');
-function openProductModal(p) {
-  $('#modalImage').src = p.images[0] ?? 'imagens/placeholder.png';
-  $('#modalTitle').textContent = p.name;
-  $('#modalDesc').textContent = p.description || '';
-  $('#modalPrice').textContent = (typeof p.price === 'number') ? formatCurrency(p.price) : p.price;
-  // specs
-  const specsDiv = $('#modalSpecs');
-  specsDiv.innerHTML = '';
-  if (p.specs && p.specs.length) {
-    specsDiv.innerHTML = '<strong>Especificações:</strong><ul class="list-disc ml-5 mt-1 text-sm text-gray-700">' + p.specs.map(s => `<li>${s}</li>`).join('') + '</ul>';
-  }
-
-  // favorite button state
-  const favBtn = $('#favoriteModalBtn');
-  favBtn.dataset.id = p.id;
-  favBtn.innerHTML = isFavorited(p.id) ? '<i class="fas fa-heart"></i> Remover dos favoritos' : '<i class="far fa-heart"></i> Favoritar';
-
-  // show modal
-  modal.classList.add('active');
-  modal.setAttribute('aria-hidden','false');
-
-  // attach buy callback
-  $('#buyWhatsappBtn').onclick = () => {
-    const name = encodeURIComponent( ($('#modalCustomerName').value || 'Cliente').trim() );
-    const productTextParts = [
-      `Olá, meu nome é ${decodeURIComponent(name) !== 'Cliente' ? decodeURIComponent(name) : 'Cliente'}.`,
-      `Estou interessado no produto: ${p.name}.`,
-      p.color ? `Cor: ${Array.isArray(p.color) ? p.color.join(', ') : p.color}` : '',
-      p.condition ? `Estado: ${p.condition}` : '',
-      `Preço: ${typeof p.price === 'number' ? formatCurrency(p.price) : p.price}`,
-      `Por favor, me informem disponibilidade e formas de pagamento.`
-    ];
-    const message = encodeURIComponent(productTextParts.filter(Boolean).join('\n'));
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
-  };
-
-  // favorite inside modal
-  favBtn.onclick = () => {
-    toggleFavorite(p.id);
-    favBtn.innerHTML = isFavorited(p.id) ? '<i class="fas fa-heart"></i> Remover dos favoritos' : '<i class="far fa-heart"></i> Favoritar';
-    // update card icons
-    $$('.btn-fav').forEach(b => { if (b.dataset.id === p.id) b.classList.toggle('active'); });
+function openProductModal(p){
+  $('#modalImage').src=p.images[0];
+  $('#modalTitle').textContent=p.name;
+  $('#modalDesc').textContent=p.description;
+  $('#modalPrice').textContent=p.price;
+  modal.classList.add('active'); modal.setAttribute('aria-hidden','false');
+  $('#buyWhatsappBtn').onclick=()=>{
+    const name=encodeURIComponent($('#modalCustomerName').value.trim()||'Cliente');
+    const msg=encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
   };
 }
+$('#closeProductModal').addEventListener('click',()=>{modal.classList.remove('active'); modal.setAttribute('aria-hidden','true');});
+$('#modalOverlay').addEventListener('click',()=>{modal.classList.remove('active'); modal.setAttribute('aria-hidden','true');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape') modal.classList.remove('active');});
 
-/* Close modal */
-$('#closeProductModal').addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', closeModal);
-function closeModal() {
-  modal.classList.remove('active');
-  modal.setAttribute('aria-hidden','true');
-}
+$('#menuToggle').addEventListener('click',()=>$('#mobileMenu').classList.toggle('show'));
+window.addEventListener('scroll',()=>{$('#scrollTopBtn').style.display=window.scrollY>300?'block':'none';});
+$('#scrollTopBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-/* Mobile menu toggle */
-$('#menuToggle').addEventListener('click', () => $('#mobileMenu').classList.toggle('show'));
+$('#newsletterForm')?.addEventListener('submit',e=>{e.preventDefault(); const email=$('#newsletterEmail').value.trim(); if(!email)return alert('Informe um e-mail válido.'); alert('Obrigado! E-mail cadastrado: '+email); $('#newsletterEmail').value='';});
 
-/* Scroll top */
-const scrollBtn = $('#scrollTopBtn');
-window.addEventListener('scroll', () => { scrollBtn.style.display = window.scrollY > 300 ? 'block' : 'none'; });
-scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }) );
-
-/* Newsletter (simples) */
-$('#newsletterForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = $('#newsletterEmail').value.trim();
-  if (!email) return alert('Informe um e-mail válido.');
-  alert('Obrigado! E-mail cadastrado: ' + email);
-  $('#newsletterEmail').value = '';
-});
-
-/* Initialize */
-document.addEventListener('DOMContentLoaded', () => {
-  setupFilters();
-  loadProducts();
-});
-
-/* Optional: keyboard ESC fecha modal */
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-});
+document.addEventListener('DOMContentLoaded',()=>{setupFilters(); loadProducts();});
 </script>
+
 </body>
 </html>
-
-
-
