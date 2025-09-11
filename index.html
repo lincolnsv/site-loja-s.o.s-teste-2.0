@@ -353,36 +353,29 @@ function renderProducts(list) {
   });
 }
 
-/* Filters */
-function setupFilters() {
-  $$('.category-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      $$('.category-btn').forEach(b=> b.classList.remove('bg-blue-600','text-white'));
-      e.currentTarget.classList.add('bg-blue-600','text-white');
-      const cat = e.currentTarget.dataset.cat;
-      applyFilters({category: cat === 'all' ? null : cat});
-    });
-  });
-  $('#sortSelect').addEventListener('change', (e) => {
-    const val = e.target.value;
-    if (val === 'price-asc') displayedProducts.sort((a,b) => (a.rawPrice||0) - (b.rawPrice||0));
-    else if (val === 'price-desc') displayedProducts.sort((a,b) => (b.rawPrice||0) - (a.rawPrice||0));
-    else displayedProducts = [...displayedProducts]; // default
-    renderProducts(displayedProducts);
-  });
-  $('#searchBtn').addEventListener('click', () => applySearch($('#searchInput').value));
-  $('#searchInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') applySearch(e.target.value); });
+/*-------------------------
+  Filtrar por marca + abas Novo/Seminovo
+--------------------------*/
+let currentBrand = "";
+let currentCategory = "Novo";
+
+/* Função: selecionar marca */
+function carregarMarca(brand) {
+  currentBrand = brand;
+  currentCategory = "Novo"; // sempre inicia em Novos
+  $('#abas').classList.remove('hidden');
+  mostrarCategoria(currentCategory);
 }
-function applyFilters({category=null} = {}) {
-  displayedProducts = allProducts.filter(p => category ? (p.category && p.category.toLowerCase().includes(category.toLowerCase())) : true);
-  renderProducts(displayedProducts);
+
+/* Função: mostrar produtos por categoria */
+function mostrarCategoria(category) {
+  currentCategory = category;
+  const filtrados = allProducts.filter(p => 
+    p.brand === currentBrand && p.category === category
+  );
+  renderProducts(filtrados);
 }
-function applySearch(term) {
-  const q = (term||'').trim().toLowerCase();
-  if (!q) { displayedProducts = [...allProducts]; renderProducts(displayedProducts); return; }
-  displayedProducts = allProducts.filter(p => (p.name||'').toLowerCase().includes(q) || (p.description||'').toLowerCase().includes(q));
-  renderProducts(displayedProducts);
-}
+
 
 /* Favorites (localStorage) */
 const FAVORITES_KEY = 'soscelulares_favs';
@@ -484,5 +477,6 @@ document.addEventListener('keydown', (e) => {
 </script>
 </body>
 </html>
+
 
 
