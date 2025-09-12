@@ -23,7 +23,6 @@
   .pill { padding: .25rem .75rem; border-radius: 999px; font-weight:600; font-size:.85rem; }
   .hidden-on-small { display: inline-block; }
   @media(max-width:640px){ .hidden-on-small { display:none; } }
-  /* Botão ativo categoria */
   .category-btn.active { background-color: #2563eb; color: white; font-weight: 600; }
 </style>
 </head>
@@ -94,7 +93,7 @@
     <div>
       <h2 class="text-2xl font-bold mb-2">Produtos</h2>
       <div class="flex gap-2 overflow-x-auto pb-2">
-        <button class="category-btn pill bg-white text-blue-700 active" data-cat="all">Todos</button>
+        <button class="category-btn pill bg-white active" data-cat="all">Todos</button>
         <button class="category-btn pill bg-white" data-cat="iPhone">iPhone</button>
         <button class="category-btn pill bg-white" data-cat="Samsung">Samsung</button>
         <button class="category-btn pill bg-white" data-cat="Xiaomi">Xiaomi</button>
@@ -210,7 +209,6 @@ function renderProducts(list){
     `;
     container.appendChild(card);
   });
-  // Listeners
   $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
     const id=e.currentTarget.dataset.id;
     const prod=allProducts.find(x=>x.id==id);
@@ -224,7 +222,6 @@ function renderProducts(list){
 
 function filterProducts(){
   let list = currentBrand==='all'?allProducts:allProducts.filter(p=>p.category===currentBrand || p.name.includes(currentBrand));
-  // Ordenação
   const sortVal = $('#sortSelect').value;
   if(sortVal==='price-asc') list.sort((a,b)=>a.rawPrice-b.rawPrice);
   if(sortVal==='price-desc') list.sort((a,b)=>b.rawPrice-a.rawPrice);
@@ -241,6 +238,9 @@ function setupFilters(){
       filterProducts();
     });
   });
+  // Ativa "Todos" ao carregar
+  const allBtn = document.querySelector('.category-btn[data-cat="all"]');
+  if(allBtn) allBtn.classList.add('active');
   $('#sortSelect').addEventListener('change',()=>filterProducts());
 }
 
@@ -267,6 +267,7 @@ function openProductModal(p){
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
   };
 }
+
 $('#closeProductModal').addEventListener('click',()=>{modal.classList.remove('active'); modal.setAttribute('aria-hidden','true');});
 $('#modalOverlay').addEventListener('click',()=>{modal.classList.remove('active'); modal.setAttribute('aria-hidden','true');});
 document.addEventListener('keydown',e=>{if(e.key==='Escape') modal.classList.remove('active');});
@@ -275,11 +276,8 @@ $('#menuToggle').addEventListener('click',()=>$('#mobileMenu').classList.toggle(
 window.addEventListener('scroll',()=>{$('#scrollTopBtn').style.display=window.scrollY>300?'block':'none';});
 $('#scrollTopBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-$('#newsletterForm')?.addEventListener('submit',e=>{e.preventDefault(); const email=$('#newsletterEmail').value.trim(); if(!email)return alert('Informe um e-mail válido.'); alert('Obrigado! E-mail cadastrado: '+email); $('#newsletterEmail').value='';});
-
 document.addEventListener('DOMContentLoaded',()=>{setupFilters(); loadProducts();});
 </script>
 
 </body>
 </html>
-
