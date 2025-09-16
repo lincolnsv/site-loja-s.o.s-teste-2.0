@@ -266,5 +266,33 @@ $('#sortSelect').addEventListener('change',()=>renderProducts(allProducts));
 document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 </script>
 
+<!-- Contato -->
+<section id="contato" class="bg-blue-600 text-white py-12 mt-12 rounded-lg">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-6 text-center">📞 Contato</h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Informações -->
+      <div class="flex flex-col justify-center gap-4">
+        <p class="text-lg"><i class="fas fa-phone-alt"></i> Telefone: (64) 99998-4690</p>
+        <p class="text-lg"><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/5564999984690" class="underline">Clique para falar</a></p>
+        <p class="text-lg"><i class="fas fa-map-marker-alt"></i> Endereço: Rua Exemplo, 123, Sua Cidade</p>
+        <p class="text-lg"><i class="fas fa-envelope"></i> Email: contato@soscelulares.com</p>
+      </div>
+
+      <!-- Formulário -->
+      <div>
+        <form id="contactForm" class="flex flex-col gap-4 bg-white rounded-lg p-6 text-gray-800">
+          <input type="text" placeholder="Seu nome" class="px-3 py-2 border rounded" required />
+          <input type="email" placeholder="Seu email" class="px-3 py-2 border rounded" required />
+          <textarea placeholder="Mensagem" class="px-3 py-2 border rounded" rows="4" required></textarea>
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Enviar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 </body>
 </html>
+
