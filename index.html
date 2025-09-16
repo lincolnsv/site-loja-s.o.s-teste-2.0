@@ -200,7 +200,7 @@ function renderProducts(list){
   $('#catalogAcessorios').innerHTML=''; 
 
   if(!list.length){
-    $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; 
+    $('#catalogNovos,#catalogSeminovos,#catalogPromocoes,#catalogAcessorio').innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; 
     return;
   }
 
@@ -301,6 +301,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 
 </body>
 </html>
+
 
 
 
