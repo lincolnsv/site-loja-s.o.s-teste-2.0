@@ -7,167 +7,199 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    body { background: linear-gradient(to bottom right, #f8fafc, #e2e8f0); }
-    .category-btn.active { transform: scale(1.1); }
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(to bottom, #f9fafb, #f3f4f6); }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    .modal { display: none; }
+    .modal.active { display: flex; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="text-gray-800">
   <!-- HEADER -->
-  <header class="bg-blue-700 text-white shadow">
-    <div class="container mx-auto flex justify-between items-center p-4">
-      <h1 class="text-xl font-bold">S.O.S Celulares</h1>
-      <button id="menuToggle" class="md:hidden"><i class="fas fa-bars"></i></button>
-      <nav id="menu" class="hidden md:flex space-x-4">
-        <a href="#" class="hover:underline">Início</a>
-        <a href="#produtos" class="hover:underline">Produtos</a>
-        <a href="#contato" class="hover:underline">Contato</a>
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <h1 class="text-xl font-bold text-blue-600">S.O.S Celulares</h1>
+      <nav class="hidden md:flex gap-4">
+        <a href="#" class="hover:text-blue-600">Início</a>
+        <a href="#produtos" class="hover:text-blue-600">Produtos</a>
+        <a href="#contato" class="hover:text-blue-600">Contato</a>
       </nav>
+      <button id="menuBtn" class="md:hidden text-2xl"><i class="fas fa-bars"></i></button>
+    </div>
+    <div id="mobileMenu" class="hidden md:hidden bg-gray-50 px-4 pb-4">
+      <a href="#" class="block py-2">Início</a>
+      <a href="#produtos" class="block py-2">Produtos</a>
+      <a href="#contato" class="block py-2">Contato</a>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="bg-gray-100 py-8 text-center">
-    <h2 class="text-2xl font-bold mb-2">Encontre o celular ideal</h2>
-    <p class="text-gray-600">Novos, seminovos e promoções imperdíveis</p>
+  <!-- BANNER -->
+  <section class="bg-blue-600 text-white py-16 text-center">
+    <h2 class="text-3xl font-bold mb-4">Novos e Seminovos</h2>
+    <p>Encontre o celular perfeito com os melhores preços!</p>
   </section>
 
-  <!-- CATEGORIAS -->
-  <section class="container mx-auto p-4" id="produtos">
-    <div class="categories flex space-x-3 pb-4 justify-center flex-wrap gap-3">
-      <button data-brand="all" class="category-btn active px-4 py-2 rounded-full bg-blue-600 text-white font-semibold shadow">Todos</button>
-      <button data-brand="Novo" class="category-btn px-4 py-2 rounded-full bg-green-600 text-white font-semibold shadow">Novos</button>
-      <button data-brand="Seminovo" class="category-btn px-4 py-2 rounded-full bg-yellow-500 text-white font-semibold shadow">Seminovos</button>
-      <button data-brand="Promoção" class="category-btn px-4 py-2 rounded-full bg-red-600 text-white font-semibold shadow">Promoções</button>
+  <!-- PRODUTOS -->
+  <section id="produtos" class="container mx-auto px-4 py-12">
+    <h3 class="text-2xl font-bold mb-6">Nossos Produtos</h3>
+
+    <!-- FILTROS -->
+    <div class="flex flex-wrap gap-2 mb-6 overflow-x-auto scrollbar-hide">
+      <button data-brand="all" class="filter-btn bg-blue-600 text-white px-4 py-2 rounded-full">Todos</button>
+      <button data-brand="Samsung" class="filter-btn bg-gray-200 px-4 py-2 rounded-full">Samsung</button>
+      <button data-brand="iPhone" class="filter-btn bg-gray-200 px-4 py-2 rounded-full">iPhone</button>
+      <button data-brand="Motorola" class="filter-btn bg-gray-200 px-4 py-2 rounded-full">Motorola</button>
+      <button data-brand="Xiaomi" class="filter-btn bg-gray-200 px-4 py-2 rounded-full">Xiaomi</button>
+      <button data-brand="LG" class="filter-btn bg-gray-200 px-4 py-2 rounded-full">LG</button>
     </div>
 
-    <!-- Ordenação -->
+    <!-- ORDENAR -->
     <div class="flex justify-end mb-4">
-      <select id="sortSelect" class="border rounded p-2">
+      <select id="sortSelect" class="border px-3 py-2 rounded">
         <option value="default">Ordenar</option>
-        <option value="asc">Preço: menor para maior</option>
-        <option value="desc">Preço: maior para menor</option>
+        <option value="asc">Preço: Menor para Maior</option>
+        <option value="desc">Preço: Maior para Menor</option>
       </select>
     </div>
 
-    <!-- GRID PRODUTOS -->
-    <div id="productsGrid" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-    <div id="errorMsg" class="hidden text-red-600 text-center mt-4">Erro ao carregar produtos.</div>
+    <!-- GRID DE PRODUTOS -->
+    <div id="productsGrid" class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
+    <p id="errorMsg" class="text-red-600 mt-4 hidden">Erro ao carregar produtos.</p>
   </section>
 
   <!-- MODAL PRODUTO -->
-  <div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
-    <div class="bg-white p-6 rounded shadow-lg w-96 relative">
-      <button id="closeModal" class="absolute top-2 right-2 text-gray-600">&times;</button>
-      <img id="modalImage" src="" alt="" class="w-full h-48 object-contain mb-4" loading="lazy">
-      <h3 id="modalName" class="text-xl font-bold mb-2"></h3>
-      <p id="modalDesc" class="text-gray-600 mb-2"></p>
-      <div class="flex justify-between items-center mb-4">
-        <span id="modalPrice" class="text-lg font-bold text-blue-600"></span>
+  <div id="productModal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4">
+    <div class="bg-white rounded-lg max-w-lg w-full p-6 relative">
+      <button id="closeModal" class="absolute top-3 right-3 text-gray-500 text-xl">&times;</button>
+      <img id="modalImage" src="" alt="" class="w-full h-60 object-contain mb-4" loading="lazy"/>
+      <h4 id="modalName" class="text-xl font-bold mb-2"></h4>
+      <p id="modalDesc" class="text-gray-600 mb-4"></p>
+      <div class="flex flex-col gap-2 mb-4">
+        <span id="modalPrice" class="text-blue-600 font-bold text-lg"></span>
+        <span id="modalParcelado" class="text-gray-500 text-sm"></span>
       </div>
-      <a id="buyBtn" href="#" target="_blank" class="block text-center bg-green-600 text-white py-2 rounded">Comprar via WhatsApp</a>
+      <div class="flex justify-end">
+        <a id="modalBuy" href="#" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Comprar</a>
+      </div>
     </div>
   </div>
 
-  <!-- SCROLL TOP -->
-  <button id="scrollTopBtn" class="fixed bottom-4 right-4 bg-blue-600 text-white p-3 rounded-full shadow hidden"><i class="fas fa-arrow-up"></i></button>
+  <!-- CONTATO -->
+  <section id="contato" class="bg-gray-100 py-12">
+    <div class="container mx-auto px-4">
+      <h3 class="text-2xl font-bold mb-4">Fale Conosco</h3>
+      <p>Entre em contato pelo WhatsApp para mais informações.</p>
+      <a href="https://wa.me/5564999984690" target="_blank" class="mt-4 inline-block bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+    </div>
+  </section>
 
   <!-- FOOTER -->
-  <footer id="contato" class="bg-blue-700 text-white text-center py-4 mt-8">
-    <p>&copy; 2025 S.O.S Celulares. Todos os direitos reservados.</p>
-    <p>Contato: (64) 99998-4690</p>
+  <footer class="bg-white shadow mt-12">
+    <div class="container mx-auto px-4 py-6 text-center text-gray-500">
+      &copy; 2025 S.O.S Celulares - Todos os direitos reservados.
+    </div>
   </footer>
 
-  <!-- SCRIPT -->
+  <!-- BOTÃO TOPO -->
+  <button id="scrollTopBtn" class="hidden fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
   <script>
     const $ = sel => document.querySelector(sel);
     const $$ = sel => document.querySelectorAll(sel);
 
-    let allProducts = [];
-    let currentBrand = 'all';
-    let currentSort = 'default';
+    // MENU MOBILE
+    $('#menuBtn').addEventListener('click', ()=>$('#mobileMenu').classList.toggle('hidden'));
+
+    // MODAL
+    const modal = $('#productModal');
+    const closeModalBtn = $('#closeModal');
+    closeModalBtn.addEventListener('click',()=>modal.classList.remove('active'));
+    modal.addEventListener('click',e=>{ if(e.target===modal) modal.classList.remove('active'); });
+
+    // SCROLL TOP
+    const scrollBtn = $('#scrollTopBtn');
+    window.addEventListener('scroll',()=>{ scrollBtn.classList.toggle('hidden', window.scrollY<300); });
+    scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+    // PRODUTOS
+    let allProducts = [], currentBrand='all';
 
     async function loadProducts(){
       try{
         const res = await fetch('produtos.json');
-        if(!res.ok) throw new Error("Erro HTTP");
+        if(!res.ok) throw new Error();
         allProducts = await res.json();
-        renderProducts();
+        renderProducts(allProducts);
       }catch(e){
         $('#errorMsg').classList.remove('hidden');
       }
     }
 
-    function renderProducts(){
-      let list = currentBrand==='all' 
-        ? allProducts 
-        : allProducts.filter(p => p.category.toLowerCase() === currentBrand.toLowerCase());
+    function renderProducts(products){
+      const grid=$('#productsGrid');
+      grid.innerHTML='';
+      if(products.length===0){ grid.innerHTML='<p>Nenhum produto encontrado.</p>'; return; }
+      products.forEach(p=>{
+        grid.innerHTML+=`
+          <div class="bg-white rounded-lg shadow p-4 flex flex-col">
+            <img src="${p.image||'https://via.placeholder.com/200'}" alt="${p.name}" class="w-full h-40 object-contain mb-2" loading="lazy"/>
+            <h4 class="font-bold mb-1">${p.name}</h4>
+            <p class="text-sm text-gray-500 flex-grow">${p.description||''}</p>
+            <div class="mt-2">
+              <span class="block text-blue-600 font-bold">${p.price?.avista || p.price || ''}</span>
+              ${p.price?.parcelado ? `<span class="block text-gray-500 text-sm">${p.price.parcelado}</span>` : ""}
+            </div>
+            <div class="mt-3 flex justify-end">
+              <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm" data-id="${p.id}">
+                Detalhes
+              </button>
+            </div>
+          </div>`;
+      });
+      attachEvents();
+    }
 
-      if(currentSort==='asc'){
-        list.sort((a,b)=>parseFloat(a.price.replace(/\D/g,'')) - parseFloat(b.price.replace(/\D/g,'')));
-      } else if(currentSort==='desc'){
-        list.sort((a,b)=>parseFloat(b.price.replace(/\D/g,'')) - parseFloat(a.price.replace(/\D/g,'')));
-      }
-
-      const grid = $('#productsGrid');
-      grid.innerHTML = list.map(p=>`
-        <div class="bg-white rounded shadow p-4 flex flex-col">
-          <img src="${p.image||'https://via.placeholder.com/150'}" alt="${p.name}" class="h-40 object-contain mb-2" loading="lazy">
-          <h4 class="font-bold mb-1">${p.name}</h4>
-          <p class="text-sm text-gray-600 flex-grow">${p.description||''}</p>
-          <div class="flex justify-between items-center mt-2">
-            <span class="text-blue-600 font-bold">${p.price}</span>
-            <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm" data-id="${p.id}">Detalhes</button>
-          </div>
-        </div>`).join('');
-
+    function attachEvents(){
       $$('.btn-view').forEach(btn=>{
         btn.addEventListener('click',()=>{
-          const prod = allProducts.find(x=>x.id==btn.dataset.id);
-          openModal(prod);
+          const id=btn.dataset.id;
+          const p=allProducts.find(pr=>pr.id==id);
+          if(!p) return;
+          $('#modalImage').src=p.image||'https://via.placeholder.com/200';
+          $('#modalName').textContent=p.name;
+          $('#modalDesc').textContent=p.description||'';
+          $('#modalPrice').textContent=p.price?.avista || p.price || '';
+          $('#modalParcelado').textContent=p.price?.parcelado || '';
+          $('#modalBuy').href=`https://wa.me/5564999984690?text=Tenho interesse no ${encodeURIComponent(p.name)}`;
+          modal.classList.add('active');
         });
       });
     }
 
-    function openModal(p){
-      $('#modalImage').src = p.image||'https://via.placeholder.com/150';
-      $('#modalName').textContent = p.name;
-      $('#modalDesc').textContent = p.description||'';
-      $('#modalPrice').textContent = p.price;
-      $('#buyBtn').href = `https://wa.me/5564999984690?text=Olá, gostaria de comprar o ${p.name}`;
-      $('#productModal').classList.remove('hidden');
-      $('#productModal').classList.add('flex');
-    }
-
-    $('#closeModal').addEventListener('click',()=>{
-      $('#productModal').classList.add('hidden');
-      $('#productModal').classList.remove('flex');
-    });
-
-    // categorias
-    $$('.category-btn').forEach(btn=>{
+    // FILTRO
+    $$('.filter-btn').forEach(btn=>{
       btn.addEventListener('click',()=>{
-        $$('.category-btn').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
-        currentBrand = btn.dataset.brand;
-        renderProducts();
+        $$('.filter-btn').forEach(b=>b.classList.remove('bg-blue-600','text-white'));
+        btn.classList.add('bg-blue-600','text-white');
+        currentBrand=btn.dataset.brand;
+        applyFilters();
       });
     });
 
-    // ordenação
-    $('#sortSelect').addEventListener('change',e=>{
-      currentSort = e.target.value;
-      renderProducts();
-    });
+    // ORDENAR
+    $('#sortSelect').addEventListener('change',applyFilters);
 
-    // scroll top
-    window.addEventListener('scroll',()=>{
-      if(window.scrollY>200) $('#scrollTopBtn').classList.remove('hidden');
-      else $('#scrollTopBtn').classList.add('hidden');
-    });
-    $('#scrollTopBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-
-    // menu mobile
-    $('#menuToggle').addEventListener('click',()=>$('#menu').classList.toggle('hidden'));
+    function applyFilters(){
+      let list=currentBrand==='all'? allProducts : allProducts.filter(p=>p.category===currentBrand);
+      const sort=$('#sortSelect').value;
+      if(sort==='asc') list.sort((a,b)=>parseFloat((a.price?.avista||a.price||"0").replace(/\D/g,''))-parseFloat((b.price?.avista||b.price||"0").replace(/\D/g,'')));
+      if(sort==='desc') list.sort((a,b)=>parseFloat((b.price?.avista||b.price||"0").replace(/\D/g,''))-parseFloat((a.price?.avista||a.price||"0").replace(/\D/g,'')));
+      renderProducts(list);
+    }
 
     loadProducts();
   </script>
