@@ -1,7 +1,6 @@
 [
   {
-    "id": 1,
-    "brand": "Realme",
+    "id": 1
     "name": "Realme C75X",
     "category": "Novo",
     "price": {
@@ -318,7 +317,7 @@
     "id": 15,
     "brand": "Acessórios",
     "name": "Cabo Adaptador de Áudio IT-BLUE MAX-0302F",
-    "category": "Novo",
+    "category": "Acessórios",
     "price": {
       "avista": "R$ 20,00"
     },
@@ -339,7 +338,7 @@
     "id": 16,
     "brand": "Acessórios",
     "name": "Fone de Ouvido Estéreo LELONG LE-0240",
-    "category": "Novo",
+    "category": "Acessórios",
     "price": {
       "avista": "R$ 20,00"
     },
@@ -359,7 +358,7 @@
     "id": 17,
     "brand": "Acessórios",
     "name": "Carregador Veicular LEVMOX LE-156",
-    "category": "Novo",
+    "category": "Acessórios",
     "price": {
       "avista": "R$ 25,00"
     },
@@ -381,7 +380,7 @@
     "id": 18,
     "brand": "Acessórios",
     "name": "Adaptador Lightning para P2 LEHMOX LEY-234",
-    "category": "Novo",
+    "category": "Acessórios",
     "price": {
       "avista": "R$ 20,00"
     },
@@ -402,7 +401,7 @@
     "id": 19,
     "brand": "Acessórios",
     "name": "Receptor de Música Sem Fio DANAT",
-    "category": "Novo",
+    "category": "Acessórios",
     "price": {
       "avista": "R$ 25,00"
     },
@@ -425,7 +424,7 @@
     "id": 20,
     "brand": "Acessórios",
     "name": "Carregador Universal LCD USB",
-    "category": "Novo",
+    "category": "Acessórios",
     "price": {
       "avista": "R$ 25,00"
     },
@@ -446,7 +445,7 @@
     "id": 21,
     "brand": "Acessórios",
     "name": "Fone de Ouvido EarX Lightning",
-    "category": "Novo",
+    "category": "Acessórios",
     "price": {
       "avista": "R$ 25,00"
     },
@@ -466,7 +465,7 @@
     "id": 22,
     "brand": "Acessórios",
     "name": "Cabos Micro USB KMASTON – Supercarga 4.8A",
-    "category": "Novo",
+    "category": "Acessórios",
     "price": {
       "avista": "R$ 20,00"
     },
@@ -485,7 +484,7 @@
     "id": 23,
     "brand": "Acessórios",
     "name": "Hub USB 2.0 Relog’s – 4 Portas",
-    "category": "Novo",
+    "category": "Acessórios",
     "price": {
       "avista": "R$ 25,00"
     },
@@ -698,6 +697,7 @@
     "color": "Preto/Verde"
   }
 ]
+
 
 
 
