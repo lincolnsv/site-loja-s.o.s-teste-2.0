@@ -77,8 +77,36 @@
       </div>
     </div>
     <div class="md:w-1/2 flex justify-center">
-      <img src="imagens/hero-banner.png" alt="Smartphones" class="rounded-lg shadow-xl max-w-full h-auto" />
-    </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; background: linear-gradient(90deg,#3b82f6,#60a5fa); padding:40px;">
+  <div>
+    <h1 style="color:white; font-size:2.5em; font-weight:bold;">Celulares Novos e Seminovos com Garantia</h1>
+    <p style="color:white; font-size:1.2em;">Os melhores preços e condições — peça pelo WhatsApp e receba atendimento rápido.</p>
+    <a href="#produtos" style="padding:10px 20px; background:white; color:#3b82f6; border-radius:8px; margin-right:10px; text-decoration:none;">Ver Produtos</a>
+    <a href="https://wa.me/5564999984690" style="padding:10px 20px; background:#25d366; color:white; border-radius:8px; text-decoration:none;">Fale no WhatsApp</a>
+  </div>
+  
+  <div>
+    <img id="destaqueImagem" src="/caminho/para/imagem1.png" alt="Smartphones" style="max-width:400px; border-radius:12px;">
+  </div>
+</div>
+
+<script>
+  // Array com as imagens da categoria "Novos"
+  const imagensNovos = [
+    '/caminho/para/imagem1.png',
+    '/caminho/para/imagem2.png',
+    '/caminho/para/imagem3.png'
+  ];
+
+  let indice = 0;
+  const destaque = document.getElementById('destaqueImagem');
+
+  setInterval(() => {
+    indice = (indice + 1) % imagensNovos.length; // Vai pro próximo e volta ao início
+    destaque.src = imagensNovos[indice];
+  }, 3000); // troca a cada 3 segundos
+</script>
+   </div>
   </div>
 </section>
 
@@ -285,5 +313,6 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 
 </body>
 </html>
+
 
 
