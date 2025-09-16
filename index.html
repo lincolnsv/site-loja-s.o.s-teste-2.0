@@ -20,10 +20,6 @@
   @media(max-width: 768px){ nav.desktop-menu { display: none; } .menu-toggle { display: block; color: white; } .mobile-menu.show { display: flex; } }
   .scroll-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #2563eb; color: white; padding: 0.6rem 0.8rem; border-radius: 9999px; cursor: pointer; display: none; z-index: 80; transition: transform 0.15s; }
   .scroll-to-top:hover { transform: scale(1.06); }
-  .pill { padding: .25rem .75rem; border-radius: 999px; font-weight:600; font-size:.85rem; }
-  .hidden-on-small { display: inline-block; }
-  @media(max-width:640px){ .hidden-on-small { display:none; } }
-  .category-btn.active { background-color: #2563eb; color: white; font-weight: 600; }
 </style>
 </head>
 <body class="font-sans text-gray-800">
@@ -88,20 +84,28 @@
 
 <main class="container mx-auto px-4 py-10">
 
-  <!-- Categories / Filters -->
-  <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-    <div class="flex items-center gap-3">
-      <div class="text-sm text-gray-600">Ordenar:</div>
-      <select id="sortSelect" class="px-3 py-1 rounded border">
-        <option value="default">Relevância</option>
-        <option value="price-asc">Preço: menor → maior</option>
-        <option value="price-desc">Preço: maior → menor</option>
-      </select>
-    </div>
+  <!-- Ordenação -->
+  <div class="mb-8 flex items-center gap-3">
+    <div class="text-sm text-gray-600">Ordenar:</div>
+    <select id="sortSelect" class="px-3 py-1 rounded border">
+      <option value="default">Relevância</option>
+      <option value="price-asc">Preço: menor → maior</option>
+      <option value="price-desc">Preço: maior → menor</option>
+    </select>
   </div>
 
-  <!-- Catalog grid -->
-  <section id="catalogSection" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></section>
+  <!-- Seções de produtos -->
+  <h2 id="novos" class="text-2xl font-bold mb-4 text-blue-700">📱 Novos</h2>
+  <section id="catalogNovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10"></section>
+
+  <h2 id="seminovos" class="text-2xl font-bold mb-4 text-blue-700">📱 Seminovos</h2>
+  <section id="catalogSeminovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10"></section>
+
+  <h2 id="acessorios" class="text-2xl font-bold mb-4 text-blue-700">🎧 Acessórios</h2>
+  <section id="catalogAcessorios" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10"></section>
+
+  <h2 id="promocoes" class="text-2xl font-bold mb-4 text-blue-700">💥 Promoções</h2>
+  <section id="catalogPromocoes" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></section>
 
 </main>
 
@@ -124,7 +128,6 @@
       <div>
         <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
         <p id="modalDesc" class="text-sm text-gray-700 mb-3"></p>
-        <div id="modalSpecs" class="text-sm text-gray-700 mb-3"></div>
         <div class="mb-3">
           <span class="text-xl font-bold text-blue-600" id="modalPrice"></span>
         </div>
@@ -148,7 +151,6 @@
 <script>
 let allProducts = [];
 const WHATSAPP_NUMBER = "5564999518536";
-let currentBrand = "all";
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
@@ -169,14 +171,28 @@ async function loadProducts(){
       rawPrice: parseFloat((typeof p.price==='object'?p.price.avista:p.price).replace(/[^\d.,]/g,'')) || 0
     }));
     renderProducts(allProducts);
-  }catch(e){ console.error(e); $('#catalogSection').innerHTML='<p class="col-span-full text-center text-red-600">Erro ao carregar produtos.</p>'; }
+  }catch(e){ 
+    console.error(e); 
+    $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-red-600">Erro ao carregar produtos.</p>'; 
+  }
 }
 
 function renderProducts(list){
-  const container = $('#catalogSection'); container.innerHTML='';
-  if(!list.length){ container.innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; return; }
+  $('#catalogNovos').innerHTML=''; 
+  $('#catalogSeminovos').innerHTML=''; 
+  $('#catalogAcessorios').innerHTML=''; 
+  $('#catalogPromocoes').innerHTML='';
+
+  if(!list.length){
+    $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; 
+    return;
+  }
+
+  const favs = getFavorites();
+
   list.forEach(p=>{
     const card = document.createElement('article');
+    const isFav = favs.includes(p.id);
     card.className='card-hover bg-white rounded-lg overflow-hidden shadow transition';
     card.innerHTML=`
       <div class="relative h-48 bg-gray-100 flex items-center justify-center p-3">
@@ -189,14 +205,19 @@ function renderProducts(list){
         <div class="flex items-center justify-between">
           <div class="text-blue-600 font-bold">${p.price}</div>
           <div class="flex gap-2 items-center">
-            <button class="btn-fav text-gray-500 hover:text-red-500" data-id="${p.id}"><i class="far fa-heart"></i></button>
+            <button class="btn-fav ${isFav?'active text-red-500':'text-gray-500 hover:text-red-500'}" data-id="${p.id}"><i class="far fa-heart"></i></button>
             <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm" data-id="${p.id}">Detalhes</button>
           </div>
         </div>
       </div>
     `;
-    container.appendChild(card);
+
+    if(p.category.toLowerCase() === 'novo') $('#catalogNovos').appendChild(card);
+    else if(p.category.toLowerCase() === 'seminovo') $('#catalogSeminovos').appendChild(card);
+    else if(p.category.toLowerCase() === 'acessório' || p.category.toLowerCase() === 'acessorios') $('#catalogAcessorios').appendChild(card);
+    else if(p.category.toLowerCase() === 'promoção' || p.category.toLowerCase() === 'promocao') $('#catalogPromocoes').appendChild(card);
   });
+
   $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
     const id=e.currentTarget.dataset.id;
     const prod=allProducts.find(x=>x.id==id);
@@ -206,30 +227,6 @@ function renderProducts(list){
     const id=btn.dataset.id;
     btn.addEventListener('click',()=>toggleFavorite(id,btn));
   });
-}
-
-function filterProducts(){
-  let list = currentBrand==='all'?allProducts:allProducts.filter(p=>p.category===currentBrand || p.name.includes(currentBrand));
-  const sortVal = $('#sortSelect').value;
-  if(sortVal==='price-asc') list.sort((a,b)=>a.rawPrice-b.rawPrice);
-  if(sortVal==='price-desc') list.sort((a,b)=>b.rawPrice-a.rawPrice);
-  renderProducts(list);
-}
-
-function setupFilters(){
-  const buttons = $$('.category-btn');
-  buttons.forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      buttons.forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      currentBrand = btn.dataset.cat;
-      filterProducts();
-    });
-  });
-  // Ativa "Todos" ao carregar
-  const allBtn = document.querySelector('.category-btn[data-cat="all"]');
-  if(allBtn) allBtn.classList.add('active');
-  $('#sortSelect').addEventListener('change',()=>filterProducts());
 }
 
 const FAVORITES_KEY = 'soscelulares_favs';
@@ -264,9 +261,10 @@ $('#menuToggle').addEventListener('click',()=>$('#mobileMenu').classList.toggle(
 window.addEventListener('scroll',()=>{$('#scrollTopBtn').style.display=window.scrollY>300?'block':'none';});
 $('#scrollTopBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-document.addEventListener('DOMContentLoaded',()=>{setupFilters(); loadProducts();});
+$('#sortSelect').addEventListener('change',()=>renderProducts(allProducts));
+
+document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 </script>
 
 </body>
 </html>
-
