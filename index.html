@@ -1,207 +1,283 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>S.O.S Celulares - Novos e Seminovos</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-    body { font-family: 'Inter', sans-serif; background: linear-gradient(to bottom, #f9fafb, #f3f4f6); }
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    .modal { display: none; }
-    .modal.active { display: flex; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>S.O.S Celulares - Novos e Seminovos</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+  body { background: linear-gradient(to bottom, #bfdbfe, #eff6ff); scroll-behavior: smooth; }
+  .card-hover { position: relative; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
+  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
+  .favorite-btn.active { color: #ef4444; }
+  .product-modal { transition: all 0.25s ease; opacity: 0; visibility: hidden; position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 60; }
+  .product-modal.active { opacity: 1; visibility: visible; }
+  .modal-overlay { background-color: rgba(0,0,0,0.65); position: absolute; inset:0; }
+  .modal-card { background: white; border-radius: 1rem; max-width: 95%; width: 900px; max-height: 90vh; overflow-y: auto; padding: 1.25rem; position: relative; }
+  .mobile-menu { display: none; flex-direction: column; gap: 0.5rem; }
+  .menu-toggle { display: none; cursor: pointer; font-size: 1.25rem; }
+  @media(max-width: 768px){ nav.desktop-menu { display: none; } .menu-toggle { display: block; color: white; } .mobile-menu.show { display: flex; } }
+  .scroll-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #2563eb; color: white; padding: 0.6rem 0.8rem; border-radius: 9999px; cursor: pointer; display: none; z-index: 80; transition: transform 0.15s; }
+  .scroll-to-top:hover { transform: scale(1.06); }
+  .pill { padding: .25rem .75rem; border-radius: 999px; font-weight:600; font-size:.85rem; }
+  .hidden-on-small { display: inline-block; }
+  @media(max-width:640px){ .hidden-on-small { display:none; } }
+  .category-btn.active { background-color: #2563eb; color: white; font-weight: 600; }
+</style>
 </head>
-<body class="text-gray-800">
-  <!-- HEADER -->
-  <header class="bg-white shadow sticky top-0 z-50">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-xl font-bold text-blue-600">S.O.S Celulares</h1>
-      <nav class="hidden md:flex gap-4">
-        <a href="#" class="hover:text-blue-600">Início</a>
-        <a href="#produtos" class="hover:text-blue-600">Produtos</a>
-        <a href="#contato" class="hover:text-blue-600">Contato</a>
-      </nav>
-      <button id="menuBtn" class="md:hidden text-2xl"><i class="fas fa-bars"></i></button>
+<body class="font-sans text-gray-800">
+
+<!-- Scroll to top -->
+<button id="scrollTopBtn" class="scroll-to-top" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
+
+<!-- Header -->
+<header class="bg-blue-600 text-white sticky top-0 z-50 shadow">
+  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-3">
+      <img src="imagens/logo.png" alt="S.O.S Celulares" class="h-16 w-auto" />
+      <div>
+        <div class="text-xl font-extrabold">S.O.S Celulares</div>
+        <div class="text-xs hidden-on-small">Novos e Seminovos com Garantia</div>
+      </div>
+    </a>
+
+    <nav class="desktop-menu flex items-center gap-6">
+      <a href="#novos" class="hover:underline font-bold">Novos</a>
+      <a href="#seminovos" class="hover:underline font-bold">Seminovos</a>
+      <a href="#acessorios" class="hover:underline font-bold">Acessórios</a>
+      <a href="#promocoes" class="hover:underline font-bold">Promoções</a>
+      <a href="#contato" class="hover:underline font-bold">Contato</a>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <div class="hidden md:flex items-center bg-white rounded-full px-3 py-1">
+        <input id="searchInput" type="search" placeholder="Pesquisar produtos..." class="outline-none text-sm px-2" />
+        <button id="searchBtn" class="text-blue-600 px-2"><i class="fas fa-search"></i></button>
+      </div>
+      <button id="menuToggle" class="menu-toggle md:hidden"><i class="fas fa-bars"></i></button>
     </div>
-    <div id="mobileMenu" class="hidden md:hidden bg-gray-50 px-4 pb-4">
-      <a href="#" class="block py-2">Início</a>
-      <a href="#produtos" class="block py-2">Produtos</a>
-      <a href="#contato" class="block py-2">Contato</a>
+  </div>
+  <div id="mobileMenu" class="mobile-menu px-4 pb-4 bg-blue-600">
+    <a href="#novos" class="text-white font-semibold">Novos</a>
+    <a href="#seminovos" class="text-white font-semibold">Seminovos</a>
+    <a href="#acessorios" class="text-white font-semibold">Acessórios</a>
+    <a href="#promocoes" class="text-white font-semibold">Promoções</a>
+    <a href="#contato" class="text-white font-semibold">Contato</a>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-16">
+  <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
+    <div class="md:w-1/2">
+      <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Celulares Novos e Seminovos com Garantia</h1>
+      <p class="text-lg md:text-xl mb-6">Os melhores preços e condições — peça pelo WhatsApp e receba atendimento rápido.</p>
+      <div class="flex gap-3">
+        <a href="#novos" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100">Ver Produtos</a>
+        <a href="https://wa.me/5564999518536" target="_blank" class="bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 flex items-center gap-2">
+          <i class="fab fa-whatsapp"></i> Fale no WhatsApp
+        </a>
+      </div>
     </div>
-  </header>
-
-  <!-- BANNER -->
-  <section class="bg-blue-600 text-white py-16 text-center">
-    <h2 class="text-3xl font-bold mb-4">Novos e Seminovos</h2>
-    <p>Encontre o celular perfeito com os melhores preços!</p>
-  </section>
-
-  <!-- PRODUTOS -->
-  <section id="produtos" class="container mx-auto px-4 py-12">
-    <h3 class="text-2xl font-bold mb-6">Nossos Produtos</h3>
-
-    <!-- FILTROS -->
-    <div class="flex flex-wrap gap-2 mb-6 overflow-x-auto scrollbar-hide">
-      <button data-brand="all" class="filter-btn bg-blue-600 text-white px-4 py-2 rounded-full">Todos</button>
-      <button data-brand="Samsung" class="filter-btn bg-gray-200 px-4 py-2 rounded-full">Samsung</button>
-      <button data-brand="iPhone" class="filter-btn bg-gray-200 px-4 py-2 rounded-full">iPhone</button>
-      <button data-brand="Motorola" class="filter-btn bg-gray-200 px-4 py-2 rounded-full">Motorola</button>
-      <button data-brand="Xiaomi" class="filter-btn bg-gray-200 px-4 py-2 rounded-full">Xiaomi</button>
-      <button data-brand="LG" class="filter-btn bg-gray-200 px-4 py-2 rounded-full">LG</button>
+    <div class="md:w-1/2 flex justify-center">
+      <img src="imagens/hero-banner.png" alt="Smartphones" class="rounded-lg shadow-xl max-w-full h-auto" />
     </div>
+  </div>
+</section>
 
-    <!-- ORDENAR -->
-    <div class="flex justify-end mb-4">
-      <select id="sortSelect" class="border px-3 py-2 rounded">
-        <option value="default">Ordenar</option>
-        <option value="asc">Preço: Menor para Maior</option>
-        <option value="desc">Preço: Maior para Menor</option>
+<main class="container mx-auto px-4 py-10">
+
+  <!-- Categories / Filters -->
+  <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-2">Produtos</h2>
+      <div class="flex gap-2 overflow-x-auto pb-2">
+        <button class="category-btn pill bg-white active" data-cat="all">Todos</button>
+        <button class="category-btn pill bg-white" data-cat="iPhone">iPhone</button>
+        <button class="category-btn pill bg-white" data-cat="Samsung">Samsung</button>
+        <button class="category-btn pill bg-white" data-cat="Xiaomi">Xiaomi</button>
+        <button class="category-btn pill bg-white" data-cat="Realme">Realme</button>
+        <button class="category-btn pill bg-white" data-cat="Motorola">Motorola</button>
+        <button class="category-btn pill bg-white" data-cat="Acessórios">Acessórios</button>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="text-sm text-gray-600">Ordenar:</div>
+      <select id="sortSelect" class="px-3 py-1 rounded border">
+        <option value="default">Relevância</option>
+        <option value="price-asc">Preço: menor → maior</option>
+        <option value="price-desc">Preço: maior → menor</option>
       </select>
-    </div>
-
-    <!-- GRID DE PRODUTOS -->
-    <div id="productsGrid" class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
-    <p id="errorMsg" class="text-red-600 mt-4 hidden">Erro ao carregar produtos.</p>
-  </section>
-
-  <!-- MODAL PRODUTO -->
-  <div id="productModal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center p-4">
-    <div class="bg-white rounded-lg max-w-lg w-full p-6 relative">
-      <button id="closeModal" class="absolute top-3 right-3 text-gray-500 text-xl">&times;</button>
-      <img id="modalImage" src="" alt="" class="w-full h-60 object-contain mb-4" loading="lazy"/>
-      <h4 id="modalName" class="text-xl font-bold mb-2"></h4>
-      <p id="modalDesc" class="text-gray-600 mb-4"></p>
-      <div class="flex flex-col gap-2 mb-4">
-        <span id="modalPrice" class="text-blue-600 font-bold text-lg"></span>
-        <span id="modalParcelado" class="text-gray-500 text-sm"></span>
-      </div>
-      <div class="flex justify-end">
-        <a id="modalBuy" href="#" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Comprar</a>
-      </div>
     </div>
   </div>
 
-  <!-- CONTATO -->
-  <section id="contato" class="bg-gray-100 py-12">
-    <div class="container mx-auto px-4">
-      <h3 class="text-2xl font-bold mb-4">Fale Conosco</h3>
-      <p>Entre em contato pelo WhatsApp para mais informações.</p>
-      <a href="https://wa.me/5564999984690" target="_blank" class="mt-4 inline-block bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-      </a>
+  <!-- Catalog grid -->
+  <section id="catalogSection" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></section>
+
+</main>
+
+<!-- WhatsApp floating -->
+<a href="https://wa.me/5564999518536" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition z-40" aria-label="WhatsApp">
+  <i class="fab fa-whatsapp text-2xl"></i>
+</a>
+
+<!-- Modal Produto -->
+<div id="productModal" class="product-modal" role="dialog" aria-hidden="true">
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="modal-card" role="document" aria-modal="true">
+    <button id="closeProductModal" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900" aria-label="Fechar modal">
+      <i class="fas fa-times text-xl"></i>
+    </button>
+    <div id="modalInner" class="grid md:grid-cols-2 gap-4">
+      <div>
+        <img id="modalImage" src="" alt="" class="w-full rounded-md object-contain max-h-96" />
+      </div>
+      <div>
+        <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
+        <p id="modalDesc" class="text-sm text-gray-700 mb-3"></p>
+        <div id="modalSpecs" class="text-sm text-gray-700 mb-3"></div>
+        <div class="mb-3">
+          <span class="text-xl font-bold text-blue-600" id="modalPrice"></span>
+        </div>
+        <div class="mb-3">
+          <label class="block font-semibold mb-1">Seu nome (opcional)</label>
+          <input id="modalCustomerName" type="text" placeholder="Digite seu nome" class="w-full px-3 py-2 border rounded" />
+        </div>
+        <div class="flex gap-3">
+          <button id="buyWhatsappBtn" class="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+            <i class="fab fa-whatsapp"></i> Comprar via WhatsApp
+          </button>
+          <button id="favoriteModalBtn" class="px-4 py-2 border rounded text-gray-700 hover:bg-gray-100">
+            <i class="far fa-heart"></i> Favoritar
+          </button>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer class="bg-white shadow mt-12">
-    <div class="container mx-auto px-4 py-6 text-center text-gray-500">
-      &copy; 2025 S.O.S Celulares - Todos os direitos reservados.
-    </div>
-  </footer>
+<script>
+let allProducts = [];
+const WHATSAPP_NUMBER = "5564999518536";
+let currentBrand = "all";
 
-  <!-- BOTÃO TOPO -->
-  <button id="scrollTopBtn" class="hidden fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg">
-    <i class="fas fa-arrow-up"></i>
-  </button>
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-  <script>
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => document.querySelectorAll(sel);
+function formatCurrency(v){ return typeof v==='number'? 'R$ '+v.toFixed(2).replace('.',','): v; }
 
-    // MENU MOBILE
-    $('#menuBtn').addEventListener('click', ()=>$('#mobileMenu').classList.toggle('hidden'));
+async function loadProducts(){
+  try{
+    const res = await fetch('produtos.json');
+    const data = await res.json();
+    allProducts = data.map(p=>({
+      id: p.id ?? Math.random().toString(36).slice(2,9),
+      name: p.name ?? 'Produto',
+      category: p.category ?? 'Novo',
+      description: p.description ?? '',
+      images: p.images?.length ? p.images : p.image ? [p.image] : ['imagens/placeholder.png'],
+      price: (typeof p.price==='object') ? p.price.avista ?? 'R$ 0,00' : p.price ?? 'R$ 0,00',
+      rawPrice: parseFloat((typeof p.price==='object'?p.price.avista:p.price).replace(/[^\d.,]/g,'')) || 0
+    }));
+    renderProducts(allProducts);
+  }catch(e){ console.error(e); $('#catalogSection').innerHTML='<p class="col-span-full text-center text-red-600">Erro ao carregar produtos.</p>'; }
+}
 
-    // MODAL
-    const modal = $('#productModal');
-    const closeModalBtn = $('#closeModal');
-    closeModalBtn.addEventListener('click',()=>modal.classList.remove('active'));
-    modal.addEventListener('click',e=>{ if(e.target===modal) modal.classList.remove('active'); });
+function renderProducts(list){
+  const container = $('#catalogSection'); container.innerHTML='';
+  if(!list.length){ container.innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; return; }
+  list.forEach(p=>{
+    const card = document.createElement('article');
+    card.className='card-hover bg-white rounded-lg overflow-hidden shadow transition';
+    card.innerHTML=`
+      <div class="relative h-48 bg-gray-100 flex items-center justify-center p-3">
+        <img loading="lazy" src="${p.images[0]}" alt="${p.name}" class="max-h-full max-w-full object-contain" />
+        <button class="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-lg font-semibold opacity-0 hover:opacity-100 transition">Ver</button>
+      </div>
+      <div class="p-4">
+        <h3 class="text-lg font-bold text-gray-800 mb-1">${p.name}</h3>
+        <p class="text-gray-600 text-sm mb-2 line-clamp-3">${p.description||''}</p>
+        <div class="flex items-center justify-between">
+          <div class="text-blue-600 font-bold">${p.price}</div>
+          <div class="flex gap-2 items-center">
+            <button class="btn-fav text-gray-500 hover:text-red-500" data-id="${p.id}"><i class="far fa-heart"></i></button>
+            <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm" data-id="${p.id}">Detalhes</button>
+          </div>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+  $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
+    const id=e.currentTarget.dataset.id;
+    const prod=allProducts.find(x=>x.id==id);
+    if(prod) openProductModal(prod);
+  }));
+  $$('.btn-fav').forEach(btn=>{
+    const id=btn.dataset.id;
+    btn.addEventListener('click',()=>toggleFavorite(id,btn));
+  });
+}
 
-    // SCROLL TOP
-    const scrollBtn = $('#scrollTopBtn');
-    window.addEventListener('scroll',()=>{ scrollBtn.classList.toggle('hidden', window.scrollY<300); });
-    scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+function filterProducts(){
+  let list = currentBrand==='all'?allProducts:allProducts.filter(p=>p.category===currentBrand || p.name.includes(currentBrand));
+  const sortVal = $('#sortSelect').value;
+  if(sortVal==='price-asc') list.sort((a,b)=>a.rawPrice-b.rawPrice);
+  if(sortVal==='price-desc') list.sort((a,b)=>b.rawPrice-a.rawPrice);
+  renderProducts(list);
+}
 
-    // PRODUTOS
-    let allProducts = [], currentBrand='all';
-
-    async function loadProducts(){
-      try{
-        const res = await fetch('produtos.json');
-        if(!res.ok) throw new Error();
-        allProducts = await res.json();
-        renderProducts(allProducts);
-      }catch(e){
-        $('#errorMsg').classList.remove('hidden');
-      }
-    }
-
-    function renderProducts(products){
-      const grid=$('#productsGrid');
-      grid.innerHTML='';
-      if(products.length===0){ grid.innerHTML='<p>Nenhum produto encontrado.</p>'; return; }
-      products.forEach(p=>{
-        grid.innerHTML+=`
-          <div class="bg-white rounded-lg shadow p-4 flex flex-col">
-            <img src="${p.image||'https://via.placeholder.com/200'}" alt="${p.name}" class="w-full h-40 object-contain mb-2" loading="lazy"/>
-            <h4 class="font-bold mb-1">${p.name}</h4>
-            <p class="text-sm text-gray-500 flex-grow">${p.description||''}</p>
-            <div class="mt-2">
-              <span class="block text-blue-600 font-bold">${p.price?.avista || p.price || ''}</span>
-              ${p.price?.parcelado ? `<span class="block text-gray-500 text-sm">${p.price.parcelado}</span>` : ""}
-            </div>
-            <div class="mt-3 flex justify-end">
-              <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm" data-id="${p.id}">
-                Detalhes
-              </button>
-            </div>
-          </div>`;
-      });
-      attachEvents();
-    }
-
-    function attachEvents(){
-      $$('.btn-view').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          const id=btn.dataset.id;
-          const p=allProducts.find(pr=>pr.id==id);
-          if(!p) return;
-          $('#modalImage').src=p.image||'https://via.placeholder.com/200';
-          $('#modalName').textContent=p.name;
-          $('#modalDesc').textContent=p.description||'';
-          $('#modalPrice').textContent=p.price?.avista || p.price || '';
-          $('#modalParcelado').textContent=p.price?.parcelado || '';
-          $('#modalBuy').href=`https://wa.me/5564999984690?text=Tenho interesse no ${encodeURIComponent(p.name)}`;
-          modal.classList.add('active');
-        });
-      });
-    }
-
-    // FILTRO
-    $$('.filter-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        $$('.filter-btn').forEach(b=>b.classList.remove('bg-blue-600','text-white'));
-        btn.classList.add('bg-blue-600','text-white');
-        currentBrand=btn.dataset.brand;
-        applyFilters();
-      });
+function setupFilters(){
+  const buttons = $$('.category-btn');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      currentBrand = btn.dataset.cat;
+      filterProducts();
     });
+  });
+  // Ativa "Todos" ao carregar
+  const allBtn = document.querySelector('.category-btn[data-cat="all"]');
+  if(allBtn) allBtn.classList.add('active');
+  $('#sortSelect').addEventListener('change',()=>filterProducts());
+}
 
-    // ORDENAR
-    $('#sortSelect').addEventListener('change',applyFilters);
+const FAVORITES_KEY = 'soscelulares_favs';
+function getFavorites(){ try{ return JSON.parse(localStorage.getItem(FAVORITES_KEY))||[] }catch(e){return[];} }
+function toggleFavorite(id,btn=null){
+  const favs = getFavorites();
+  const idx=favs.indexOf(id);
+  if(idx>=0) favs.splice(idx,1); else favs.push(id);
+  localStorage.setItem(FAVORITES_KEY,JSON.stringify(favs));
+  if(btn) btn.classList.toggle('active');
+}
 
-    function applyFilters(){
-      let list=currentBrand==='all'? allProducts : allProducts.filter(p=>p.category===currentBrand);
-      const sort=$('#sortSelect').value;
-      if(sort==='asc') list.sort((a,b)=>parseFloat((a.price?.avista||a.price||"0").replace(/\D/g,''))-parseFloat((b.price?.avista||b.price||"0").replace(/\D/g,'')));
-      if(sort==='desc') list.sort((a,b)=>parseFloat((b.price?.avista||b.price||"0").replace(/\D/g,''))-parseFloat((a.price?.avista||a.price||"0").replace(/\D/g,'')));
-      renderProducts(list);
-    }
+const modal = $('#productModal');
+function openProductModal(p){
+  $('#modalImage').src=p.images[0];
+  $('#modalTitle').textContent=p.name;
+  $('#modalDesc').textContent=p.description;
+  $('#modalPrice').textContent=p.price;
+  modal.classList.add('active'); modal.setAttribute('aria-hidden','false');
+  $('#buyWhatsappBtn').onclick=()=>{
+    const name=encodeURIComponent($('#modalCustomerName').value.trim()||'Cliente');
+    const msg=encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
+  };
+}
 
-    loadProducts();
-  </script>
+$('#closeProductModal').addEventListener('click',()=>{modal.classList.remove('active'); modal.setAttribute('aria-hidden','true');});
+$('#modalOverlay').addEventListener('click',()=>{modal.classList.remove('active'); modal.setAttribute('aria-hidden','true');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape') modal.classList.remove('active');});
+
+$('#menuToggle').addEventListener('click',()=>$('#mobileMenu').classList.toggle('show'));
+window.addEventListener('scroll',()=>{$('#scrollTopBtn').style.display=window.scrollY>300?'block':'none';});
+$('#scrollTopBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+document.addEventListener('DOMContentLoaded',()=>{setupFilters(); loadProducts();});
+</script>
+
 </body>
 </html>
