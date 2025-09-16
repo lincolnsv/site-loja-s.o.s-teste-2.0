@@ -231,10 +231,10 @@ function renderProducts(list){
       </div>
     `;
 
-    if(p.category.toLowerCase() === 'novo') $('#catalogNovos').appendChild(card);
+    if(p.category.toLowerCase() === 'promoção' || p.category.toLowerCase() === 'promocao') $('#catalogPromocoes').appendChild(card);
+    else if(p.category.toLowerCase() === 'novo') $('#catalogNovos').appendChild(card);
     else if(p.category.toLowerCase() === 'seminovo') $('#catalogSeminovos').appendChild(card);
     else if(p.category.toLowerCase() === 'acessório' || p.category.toLowerCase() === 'acessorios') $('#catalogAcessorios').appendChild(card);
-    else if(p.category.toLowerCase() === 'promoção' || p.category.toLowerCase() === 'promocao') $('#catalogPromocoes').appendChild(card);
   });
 
   $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
       <div class="flex flex-col justify-center gap-4">
         <p class="text-lg"><i class="fas fa-phone-alt"></i> Telefone: (64) 99951-8536</p>
         <p class="text-lg"><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/5564999518536" class="underline">Clique para falar</a></p>
-        <p class="text-lg"><i class="fas fa-map-marker-alt"></i> Endereço: Quarta Avneida,N 90, Mineiros-Goias</p>
+        <p class="text-lg"><i class="fas fa-map-marker-alt"></i> Endereço: Quarta Avenida,N 90, Mineiros-Goias</p>
         <p class="text-lg"><i class="fas fa-envelope"></i> Email: contato@soscelulares.com</p>
       </div>
     </div>
@@ -304,6 +304,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 
 </body>
 </html>
+
 
 
 
