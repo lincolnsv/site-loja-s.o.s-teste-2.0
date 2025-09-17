@@ -58,7 +58,6 @@
     <a href="#novos" class="text-white font-semibold">Novos</a>
     <a href="#seminovos" class="text-white font-semibold">Seminovos</a>
     <a href="#acessorios" class="text-white font-semibold">Acessórios</a>
-    <a href="#promocoes" class="text-white font-semibold">Promoções</a>
     <a href="#contato" class="text-white font-semibold">Contato</a>
   </div>
 </header>
@@ -116,8 +115,6 @@
   </div>
 
   <!-- Seções de produtos -->
-  <h2 id="promocoes" class="text-2xl font-bold mb-4 text-blue-700">💥 Promoções</h2>
-  <section id="catalogPromocoes" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10"></section>
   
   <h2 id="novos" class="text-2xl font-bold mb-4 text-blue-700">📱 Novos</h2>
   <section id="catalogNovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10"></section>
@@ -196,7 +193,6 @@ async function loadProducts(){
 }
 
 function renderProducts(list){
-  $('#catalogPromocoes').innerHTML='';
   $('#catalogNovos').innerHTML=''; 
   $('#catalogSeminovos').innerHTML=''; 
   $('#catalogAcessorios').innerHTML=''; 
@@ -230,8 +226,7 @@ function renderProducts(list){
       </div>
     `;
 
-    if(p.category.toLowerCase() === 'promoção' || p.category.toLowerCase() === 'promocao') $('#catalogPromocoes').appendChild(card);
-    else if(p.category.toLowerCase() === 'novo') $('#catalogNovos').appendChild(card);
+    if(p.category.toLowerCase() === 'novo') $('#catalogNovos').appendChild(card);
     else if(p.category.toLowerCase() === 'seminovo') $('#catalogSeminovos').appendChild(card);
     else if(p.category.toLowerCase() === 'acessório' || p.category.toLowerCase() === 'acessorios') $('#catalogAcessorios').appendChild(card);
   });
@@ -303,6 +298,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 
 </body>
 </html>
+
 
 
 
