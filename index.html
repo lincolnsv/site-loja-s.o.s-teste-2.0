@@ -1,201 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>S.O.S Celulares - Novos e Seminovos</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<style>
-  body { background: linear-gradient(to bottom, #bfdbfe, #eff6ff); scroll-behavior: smooth; }
-  .card-hover { position: relative; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
-  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
-  .favorite-btn.active { color: #ef4444; }
-  .product-modal { transition: all 0.25s ease; opacity: 0; visibility: hidden; position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 60; }
-  .product-modal.active { opacity: 1; visibility: visible; }
-  .modal-overlay { background-color: rgba(0,0,0,0.65); position: absolute; inset:0; }
-  .modal-card { background: white; border-radius: 1rem; max-width: 95%; width: 900px; max-height: 90vh; overflow-y: auto; padding: 1.25rem; position: relative; }
-  .mobile-menu { display: none; flex-direction: column; gap: 0.5rem; }
-  .menu-toggle { display: none; cursor: pointer; font-size: 1.25rem; }
-  @media(max-width: 768px){ nav.desktop-menu { display: none; } .menu-toggle { display: block; color: white; } .mobile-menu.show { display: flex; } }
-  .scroll-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #2563eb; color: white; padding: 0.6rem 0.8rem; border-radius: 9999px; cursor: pointer; display: none; z-index: 80; transition: transform 0.15s; }
-  .scroll-to-top:hover { transform: scale(1.06); }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>S.O.S Celulares - Novos e Seminovos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .card-hover:hover { transform: translateY(-5px); transition: .3s; }
+    .modal { transition: opacity .25s ease; }
+  </style>
 </head>
-<body class="font-sans text-gray-800">
-
-<!-- Scroll to top -->
-<button id="scrollTopBtn" class="scroll-to-top" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
+<body class="bg-gray-100">
 
 <!-- Header -->
-<header class="bg-blue-600 text-white sticky top-0 z-50 shadow">
-  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-    <a href="#" class="flex items-center gap-3">
-      <img src="imagens/logo.png" alt="S.O.S Celulares" class="h-16 w-auto" />
-      <div>
-        <div class="text-xl font-extrabold">S.O.S Celulares</div>
-        <div class="text-xs hidden-on-small">Novos e Seminovos com Garantia</div>
-      </div>
-    </a>
-
-    <nav class="desktop-menu flex items-center gap-6">
-      <a href="#novos" class="hover:underline font-bold">Novos</a>
-      <a href="#seminovos" class="hover:underline font-bold">Seminovos</a>
-      <a href="#acessorios" class="hover:underline font-bold">Acessórios</a>
-      <a href="#contato" class="hover:underline font-bold">Contato</a>
+<header class="bg-blue-600 text-white p-4 shadow">
+  <div class="container mx-auto flex justify-between items-center">
+    <h1 class="text-2xl font-bold">S.O.S Celulares</h1>
+    <nav class="space-x-4">
+      <a href="#novos" class="hover:underline">Novos</a>
+      <a href="#seminovos" class="hover:underline">Seminovos</a>
+      <a href="#acessorios" class="hover:underline">Acessórios</a>
     </nav>
-
-    <div class="flex items-center gap-4">
-      <div class="hidden md:flex items-center bg-white rounded-full px-3 py-1">
-        <input id="searchInput" type="search" placeholder="Pesquisar produtos..." class="outline-none text-sm px-2" />
-        <button id="searchBtn" class="text-blue-600 px-2"><i class="fas fa-search"></i></button>
-      </div>
-      <button id="menuToggle" class="menu-toggle md:hidden"><i class="fas fa-bars"></i></button>
-    </div>
-  </div>
-  <div id="mobileMenu" class="mobile-menu px-4 pb-4 bg-blue-600">
-    <a href="#novos" class="text-white font-semibold">Novos</a>
-    <a href="#seminovos" class="text-white font-semibold">Seminovos</a>
-    <a href="#acessorios" class="text-white font-semibold">Acessórios</a>
-    <a href="#contato" class="text-white font-semibold">Contato</a>
   </div>
 </header>
 
 <!-- Hero -->
-<section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-16">
-  <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
-    <!-- Texto -->
-    <div class="md:w-1/2">
-      <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Celulares Novos e Seminovos com Garantia</h1>
-      <p class="text-lg md:text-xl mb-6">Os melhores preços e condições — peça pelo WhatsApp e receba atendimento rápido.</p>
-      <div class="flex gap-3">
-        <a href="#novos" class="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100">Ver Produtos</a>
-        <a href="https://wa.me/5564999984690" target="_blank" class="bg-green-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-600 flex items-center gap-2">
-          <i class="fab fa-whatsapp"></i> Fale no WhatsApp
-        </a>
-      </div>
-    </div>
-
-    <!-- Imagem com rotação -->
-    <div class="md:w-1/2 flex justify-center">
-      <img id="destaqueImagem" src="imagens/realme-c75x-1.png" alt="Smartphones" class="max-w-md rounded-xl shadow-lg">
-    </div>
-  </div>
+<section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-16 text-center">
+  <h2 class="text-4xl font-extrabold mb-4">Celulares Novos e Seminovos</h2>
+  <p class="text-lg">Qualidade e garantia que você merece</p>
 </section>
 
-<script>
-  // Array com as imagens da categoria "Novos"
-  const imagensNovos = [
-    'imagens/realme-c75x-1.png',
-    'imagens/realme-note-60x-1.png',
-    'imagens/realme_note70-1284-dourado-1.png',
-    'imagens/poco_m7pro_5g-2568-preto-1.png',
-    'imagens/poco_c75-2568-pretoverdegold-1.png'
-  ];
+<!-- Produtos -->
+<main class="container mx-auto p-6">
+  <!-- Novos -->
+  <section id="novos" class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">📱 Novos</h2>
+    <div id="catalogNovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+  </section>
 
-  let indice = 0;
-  const destaque = document.getElementById('destaqueImagem');
+  <!-- Seminovos -->
+  <section id="seminovos" class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">📱 Seminovos</h2>
+    <div id="catalogSeminovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+  </section>
 
-  setInterval(() => {
-    indice = (indice + 1) % imagensNovos.length;
-    destaque.src = imagensNovos[indice];
-  }, 3000);
-</script>
-
-<!-- Ordenação -->
-<div class="mb-8 flex items-center gap-3 px-4">
-  <div class="text-sm text-gray-600">Ordenar:</div>
-  <select id="sortSelect" class="px-3 py-1 rounded border">
-    <option value="default">Relevância</option>
-    <option value="price-asc">Preço: menor → maior</option>
-    <option value="price-desc">Preço: maior → menor</option>
-  </select>
-</div>
-
-<!-- Seções de produtos -->
-<h2 id="novos" class="text-2xl font-bold mb-4 text-blue-700 px-4">📱 Novos</h2>
-<section id="catalogNovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10 px-4"></section>
-
-<h2 id="seminovos" class="text-2xl font-bold mb-4 text-blue-700 px-4">📱 Seminovos</h2>
-<section id="catalogSeminovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10 px-4"></section>
-
-<h2 id="acessorios" class="text-2xl font-bold mb-4 text-blue-700 px-4">🎧 Acessórios</h2>
-<section id="catalogAcessorios" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6 px-4"></section>
-
-<!-- WhatsApp floating -->
-<a href="https://wa.me/5564999518536" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition z-40" aria-label="WhatsApp">
-  <i class="fab fa-whatsapp text-2xl"></i>
-</a>
+  <!-- Acessórios -->
+  <section id="acessorios" class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">🎧 Acessórios</h2>
+    <div id="catalogAcessorios" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+  </section>
+</main>
 
 <!-- Modal Produto -->
-<div id="productModal" class="product-modal" role="dialog" aria-hidden="true">
-  <div class="modal-overlay" id="modalOverlay"></div>
-  <div class="modal-card" role="document" aria-modal="true">
-    <button id="closeProductModal" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900" aria-label="Fechar modal">
-      <i class="fas fa-times text-xl"></i>
+<div id="productModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-lg max-w-lg w-full p-6 relative">
+    <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+      <i class="fas fa-times"></i>
     </button>
-    <div id="modalInner" class="grid md:grid-cols-2 gap-4">
-      <div>
-        <img id="modalImage" src="" alt="" class="w-full rounded-md object-contain max-h-96" />
-      </div>
-      <div>
-        <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
-        <p id="modalDesc" class="text-sm text-gray-700 mb-3"></p>
-        <div class="mb-3">
-          <span class="text-xl font-bold text-blue-600" id="modalPrice"></span>
-        </div>
-        <div class="mb-3">
-          <label class="block font-semibold mb-1">Seu nome (opcional)</label>
-          <input id="modalCustomerName" type="text" placeholder="Digite seu nome" class="w-full px-3 py-2 border rounded" />
-        </div>
-        <div class="flex gap-3">
-          <button id="buyWhatsappBtn" class="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-            <i class="fab fa-whatsapp"></i> Comprar via WhatsApp
-          </button>
-        </div>
-      </div>
-    </div>
+    <div id="modalContent"></div>
   </div>
 </div>
 
+<!-- Scripts -->
 <script>
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
 let allProducts = [];
-const WHATSAPP_NUMBER = "5564999518536";
 
-const $ = (sel) => document.querySelector(sel);
-const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-
-function formatCurrency(v){ return typeof v==='number'? 'R$ '+v.toFixed(2).replace('.',','): v; }
-
-async function loadProducts(){
-  try{
-    const res = await fetch('produtos.json');
-    const data = await res.json();
-    allProducts = data.map(p=>({
-      id: p.id ?? Math.random().toString(36).slice(2,9),
-      name: p.name ?? 'Produto',
-      category: p.category ?? 'Novo',
-      description: p.description ?? '',
-      images: p.images?.length ? p.images : p.image ? [p.image] : ['imagens/placeholder.png'],
-      price: (typeof p.price==='object') 
-        ? `${p.price.avista ?? 'R$ 0,00'} ${p.price.parcelado ? ' / ' + p.price.parcelado : ''}`
-        : p.price ?? 'R$ 0,00',
-      rawPrice: parseFloat((typeof p.price==='object'?p.price.avista:p.price).replace(/[^\d.,]/g,'')) || 0
-    }));
-    renderProducts(allProducts);
-  }catch(e){ 
-    console.error(e); 
-    $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-red-600">Erro ao carregar produtos.</p>'; 
-  }
+// Normaliza strings para comparar categorias (remove acentos)
+function normalize(str) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
+// Renderiza produtos
 function renderProducts(list){
-  $('#catalogNovos').innerHTML=''; 
-  $('#catalogSeminovos').innerHTML=''; 
-  $('#catalogAcessórios').innerHTML=''; 
+  $('#catalogNovos').innerHTML='';
+  $('#catalogSeminovos').innerHTML='';
+  $('#catalogAcessorios').innerHTML='';
 
   if(!list.length){
-    $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; 
+    $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>';
     return;
   }
 
@@ -217,11 +104,13 @@ function renderProducts(list){
       </div>
     `;
 
-    if(p.category.toLowerCase() === 'novo') $('#catalogNovos').appendChild(card);
-    else if(p.category.toLowerCase() === 'seminovo') $('#catalogSeminovos').appendChild(card);
-    else if(p.category.toLowerCase().includes('acessórios')) $('#catalogAcessorios').appendChild(card);
+    const categoria = normalize(p.category.toLowerCase());
+    if(categoria === 'novo') $('#catalogNovos').appendChild(card);
+    else if(categoria === 'seminovo') $('#catalogSeminovos').appendChild(card);
+    else if(categoria.includes('acessorios')) $('#catalogAcessorios').appendChild(card);
   });
 
+  // Evento botões "Detalhes"
   $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
     const id=e.currentTarget.dataset.id;
     const prod=allProducts.find(x=>x.id==id);
@@ -229,50 +118,35 @@ function renderProducts(list){
   }));
 }
 
-const modal = $('#productModal');
-function openProductModal(p){
-  $('#modalImage').src=p.images[0];
-  $('#modalTitle').textContent=p.name;
-  $('#modalDesc').textContent=p.description;
-  $('#modalspecs').textContent=p.specs;
-  $('#modalPrice').textContent=p.price;
-  modal.classList.add('active'); 
-  modal.setAttribute('aria-hidden','false');
-  $('#buyWhatsappBtn').onclick=()=>{
-    const name=encodeURIComponent($('#modalCustomerName').value.trim()||'Cliente');
-    const msg=encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
-  };
+// Modal de produto
+function openProductModal(prod){
+  $('#modalContent').innerHTML=`
+    <h2 class="text-2xl font-bold mb-2">${prod.name}</h2>
+    <img src="${prod.images[0]}" class="w-full h-64 object-contain mb-4" alt="${prod.name}">
+    <p class="mb-2 text-gray-700">${prod.description||''}</p>
+    <div class="text-blue-600 font-bold mb-4">${prod.price}</div>
+    <button class="bg-green-600 text-white px-4 py-2 rounded w-full">
+      <i class="fab fa-whatsapp"></i> Comprar via WhatsApp
+    </button>
+  `;
+  $('#productModal').classList.remove('hidden');
+  $('#productModal').classList.add('flex');
 }
 
-$('#closeProductModal').addEventListener('click',()=>{modal.classList.remove('active'); modal.setAttribute('aria-hidden','true');});
-$('#modalOverlay').addEventListener('click',()=>{modal.classList.remove('active'); modal.setAttribute('aria-hidden','true');});
-document.addEventListener('keydown',e=>{if(e.key==='Escape') modal.classList.remove('active');});
+$('#closeModal').addEventListener('click',()=>{
+  $('#productModal').classList.add('hidden');
+  $('#productModal').classList.remove('flex');
+});
 
-$('#menuToggle').addEventListener('click',()=>$('#mobileMenu').classList.toggle('show'));
-window.addEventListener('scroll',()=>{$('#scrollTopBtn').style.display=window.scrollY>300?'block':'none';});
-$('#scrollTopBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-
-$('#sortSelect').addEventListener('change',()=>renderProducts(allProducts));
-
-document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
+// Carrega produtos (JSON externo)
+fetch('products.json')
+  .then(r=>r.json())
+  .then(data=>{
+    allProducts=data;
+    renderProducts(allProducts);
+  })
+  .catch(err=>console.error("Erro ao carregar produtos:",err));
 </script>
-
-<!-- Contato -->
-<section id="contato" class="bg-blue-600 text-white py-12 mt-12 rounded-lg">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold mb-6 text-center">📞 Contato</h2>
-    <div class="grid md:grid-cols-2 gap-8">
-      <div class="flex flex-col justify-center gap-4">
-        <p class="text-lg"><i class="fas fa-phone-alt"></i> Telefone: (64) 99951-8536</p>
-        <p class="text-lg"><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/5564999518536" class="underline">Clique para falar</a></p>
-        <p class="text-lg"><i class="fas fa-map-marker-alt"></i> Endereço: Quarta Avenida, N 90, Mineiros - Goiás</p>
-        <p class="text-lg"><i class="fas fa-envelope"></i> Email: contato@soscelulares.com</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 </body>
 </html>
-
