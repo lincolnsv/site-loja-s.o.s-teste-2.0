@@ -182,7 +182,7 @@ async function loadProducts(){
       category: p.category ?? 'Novo',
       description: p.description ?? '',
       images: p.images?.length ? p.images : p.image ? [p.image] : ['imagens/placeholder.png'],
-      price: (typeof p.price==='object') ? p.price.avista ?? 'R$ 0,00' : p.price ?? 'R$ 0,00',
+      price: (typeof p.price==='object') ? p.price.avista ?? 'R$ 0,00' : p.price.parcelado ?? 'R$ 0,00',
       rawPrice: parseFloat((typeof p.price==='object'?p.price.avista:p.price).replace(/[^\d.,]/g,'')) || 0
     }));
     renderProducts(allProducts);
@@ -298,6 +298,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 
 </body>
 </html>
+
 
 
 
