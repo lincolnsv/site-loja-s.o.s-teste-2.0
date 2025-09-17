@@ -42,7 +42,6 @@
       <a href="#novos" class="hover:underline font-bold">Novos</a>
       <a href="#seminovos" class="hover:underline font-bold">Seminovos</a>
       <a href="#acessorios" class="hover:underline font-bold">Acessórios</a>
-      <a href="#promocoes" class="hover:underline font-bold">Promoções</a>
       <a href="#contato" class="hover:underline font-bold">Contato</a>
     </nav>
 
@@ -79,7 +78,7 @@
 
     <!-- Imagem com rotação -->
     <div class="md:w-1/2 flex justify-center">
-      <img id="destaqueImagem" src="/caminho/para/imagem1.png" alt="Smartphones" class="max-w-md rounded-xl shadow-lg">
+      <img id="destaqueImagem" src="imagens/realme-c75x-1.png" alt="Smartphones" class="max-w-md rounded-xl shadow-lg">
     </div>
   </div>
 </section>
@@ -87,7 +86,7 @@
 <script>
   // Array com as imagens da categoria "Novos"
   const imagensNovos = [
-    'imagens/realme-c75x-1.png,
+    'imagens/realme-c75x-1.png',
     'imagens/realme-note-60x-1.png',
     'imagens/realme_note70-1284-dourado-1.png',
     'imagens/poco_m7pro_5g-2568-preto-1.png',
@@ -100,32 +99,28 @@
   setInterval(() => {
     indice = (indice + 1) % imagensNovos.length;
     destaque.src = imagensNovos[indice];
-  }, 3000); // troca a cada 3 segundos
+  }, 3000);
 </script>
 
+<!-- Ordenação -->
+<div class="mb-8 flex items-center gap-3 px-4">
+  <div class="text-sm text-gray-600">Ordenar:</div>
+  <select id="sortSelect" class="px-3 py-1 rounded border">
+    <option value="default">Relevância</option>
+    <option value="price-asc">Preço: menor → maior</option>
+    <option value="price-desc">Preço: maior → menor</option>
+  </select>
+</div>
 
-  <!-- Ordenação -->
-  <div class="mb-8 flex items-center gap-3">
-    <div class="text-sm text-gray-600">Ordenar:</div>
-    <select id="sortSelect" class="px-3 py-1 rounded border">
-      <option value="default">Relevância</option>
-      <option value="price-asc">Preço: menor → maior</option>
-      <option value="price-desc">Preço: maior → menor</option>
-    </select>
-  </div>
+<!-- Seções de produtos -->
+<h2 id="novos" class="text-2xl font-bold mb-4 text-blue-700 px-4">📱 Novos</h2>
+<section id="catalogNovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10 px-4"></section>
 
-  <!-- Seções de produtos -->
-  
-  <h2 id="novos" class="text-2xl font-bold mb-4 text-blue-700">📱 Novos</h2>
-  <section id="catalogNovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10"></section>
+<h2 id="seminovos" class="text-2xl font-bold mb-4 text-blue-700 px-4">📱 Seminovos</h2>
+<section id="catalogSeminovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10 px-4"></section>
 
-  <h2 id="seminovos" class="text-2xl font-bold mb-4 text-blue-700">📱 Seminovos</h2>
-  <section id="catalogSeminovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10"></section>
-
-  <h2 id="acessorios" class="text-2xl font-bold mb-4 text-blue-700">🎧 Acessórios</h2>
-  <section id="catalogAcessorios" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6"></section>
-
-</main>
+<h2 id="acessorios" class="text-2xl font-bold mb-4 text-blue-700 px-4">🎧 Acessórios</h2>
+<section id="catalogAcessorios" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6 px-4"></section>
 
 <!-- WhatsApp floating -->
 <a href="https://wa.me/5564999518536" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition z-40" aria-label="WhatsApp">
@@ -182,7 +177,9 @@ async function loadProducts(){
       category: p.category ?? 'Novo',
       description: p.description ?? '',
       images: p.images?.length ? p.images : p.image ? [p.image] : ['imagens/placeholder.png'],
-      price: (typeof p.price==='object') ? p.price.avista ?? 'R$ 0,00' : p.price.parcelado ?? 'R$ 0,00',
+      price: (typeof p.price==='object') 
+        ? `${p.price.avista ?? 'R$ 0,00'} ${p.price.parcelado ? ' / ' + p.price.parcelado : ''}`
+        : p.price ?? 'R$ 0,00',
       rawPrice: parseFloat((typeof p.price==='object'?p.price.avista:p.price).replace(/[^\d.,]/g,'')) || 0
     }));
     renderProducts(allProducts);
@@ -198,15 +195,12 @@ function renderProducts(list){
   $('#catalogAcessorios').innerHTML=''; 
 
   if(!list.length){
-    $('#catalogNovos,#catalogSeminovos,#catalogPromocoes,#catalogAcessorio').innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; 
+    $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; 
     return;
   }
 
-  const favs = getFavorites();
-
   list.forEach(p=>{
     const card = document.createElement('article');
-    const isFav = favs.includes(p.id);
     card.className='card-hover bg-white rounded-lg overflow-hidden shadow transition';
     card.innerHTML=`
       <div class="relative h-48 bg-gray-100 flex items-center justify-center p-3">
@@ -218,17 +212,14 @@ function renderProducts(list){
         <p class="text-gray-600 text-sm mb-2 line-clamp-3">${p.description||''}</p>
         <div class="flex items-center justify-between">
           <div class="text-blue-600 font-bold">${p.price}</div>
-          <div class="flex gap-2 items-center">
-            <button class="btn-fav ${isFav?'active text-red-500':'text-gray-500 hover:text-red-500'}" data-id="${p.id}"><i class="far fa-heart"></i></button>
-            <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm" data-id="${p.id}">Detalhes</button>
-          </div>
+          <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm" data-id="${p.id}">Detalhes</button>
         </div>
       </div>
     `;
 
     if(p.category.toLowerCase() === 'novo') $('#catalogNovos').appendChild(card);
     else if(p.category.toLowerCase() === 'seminovo') $('#catalogSeminovos').appendChild(card);
-    else if(p.category.toLowerCase() === 'acessório' || p.category.toLowerCase() === 'acessorios') $('#catalogAcessorios').appendChild(card);
+    else if(p.category.toLowerCase().includes('acessor')) $('#catalogAcessorios').appendChild(card);
   });
 
   $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
@@ -236,20 +227,6 @@ function renderProducts(list){
     const prod=allProducts.find(x=>x.id==id);
     if(prod) openProductModal(prod);
   }));
-  $$('.btn-fav').forEach(btn=>{
-    const id=btn.dataset.id;
-    btn.addEventListener('click',()=>toggleFavorite(id,btn));
-  });
-}
-
-const FAVORITES_KEY = 'soscelulares_favs';
-function getFavorites(){ try{ return JSON.parse(localStorage.getItem(FAVORITES_KEY))||[] }catch(e){return[];} }
-function toggleFavorite(id,btn=null){
-  const favs = getFavorites();
-  const idx=favs.indexOf(id);
-  if(idx>=0) favs.splice(idx,1); else favs.push(id);
-  localStorage.setItem(FAVORITES_KEY,JSON.stringify(favs));
-  if(btn) btn.classList.toggle('active');
 }
 
 const modal = $('#productModal');
@@ -258,7 +235,8 @@ function openProductModal(p){
   $('#modalTitle').textContent=p.name;
   $('#modalDesc').textContent=p.description;
   $('#modalPrice').textContent=p.price;
-  modal.classList.add('active'); modal.setAttribute('aria-hidden','false');
+  modal.classList.add('active'); 
+  modal.setAttribute('aria-hidden','false');
   $('#buyWhatsappBtn').onclick=()=>{
     const name=encodeURIComponent($('#modalCustomerName').value.trim()||'Cliente');
     const msg=encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
@@ -284,29 +262,15 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
   <div class="container mx-auto px-4">
     <h2 class="text-3xl font-bold mb-6 text-center">📞 Contato</h2>
     <div class="grid md:grid-cols-2 gap-8">
-      <!-- Informações -->
       <div class="flex flex-col justify-center gap-4">
         <p class="text-lg"><i class="fas fa-phone-alt"></i> Telefone: (64) 99951-8536</p>
         <p class="text-lg"><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/5564999518536" class="underline">Clique para falar</a></p>
-        <p class="text-lg"><i class="fas fa-map-marker-alt"></i> Endereço: Quarta Avenida,N 90, Mineiros-Goias</p>
+        <p class="text-lg"><i class="fas fa-map-marker-alt"></i> Endereço: Quarta Avenida, N 90, Mineiros - Goiás</p>
         <p class="text-lg"><i class="fas fa-envelope"></i> Email: contato@soscelulares.com</p>
       </div>
     </div>
   </div>
 </section>
 
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
