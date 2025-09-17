@@ -82,19 +82,19 @@
 </section>
 
 <script>
-  const imagensNovos = [
-    'imagens/realme-c75x-1.png',
-    'imagens/realme-note-60x-1.png',
-    'imagens/realme_note70-1284-dourado-1.png',
-    'imagens/poco_m7pro_5g-2568-preto-1.png',
-    'imagens/poco_c75-2568-pretoverdegold-1.png'
-  ];
-  let indice = 0;
-  const destaque = document.getElementById('destaqueImagem');
-  setInterval(() => {
-    indice = (indice + 1) % imagensNovos.length;
-    destaque.src = imagensNovos[indice];
-  }, 3000);
+const imagensNovos = [
+  'imagens/realme-c75x-1.png',
+  'imagens/realme-note-60x-1.png',
+  'imagens/realme_note70-1284-dourado-1.png',
+  'imagens/poco_m7pro_5g-2568-preto-1.png',
+  'imagens/poco_c75-2568-pretoverdegold-1.png'
+];
+let indice = 0;
+const destaque = document.getElementById('destaqueImagem');
+setInterval(() => {
+  indice = (indice + 1) % imagensNovos.length;
+  destaque.src = imagensNovos[indice];
+}, 3000);
 </script>
 
 <!-- Ordenação -->
@@ -136,6 +136,13 @@
       <div>
         <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
         <p id="modalDesc" class="text-sm text-gray-700 mb-3"></p>
+
+        <!-- Specs -->
+        <div class="mb-3">
+          <h3 class="font-semibold mb-1">Especificações:</h3>
+          <ul id="modalspecs" class="list-disc list-inside text-sm text-gray-700"></ul>
+        </div>
+
         <div class="mb-3">
           <span class="text-xl font-bold text-blue-600" id="modalPrice"></span>
         </div>
@@ -169,6 +176,7 @@ async function loadProducts(){
       name: p.name ?? 'Produto',
       category: p.category ?? 'Novo',
       description: p.description ?? '',
+      specs: p.specs ?? [],
       images: p.images?.length ? p.images : p.image ? [p.image] : ['imagens/placeholder.png'],
       price: (typeof p.price==='object') 
         ? `${p.price.avista ?? 'R$ 0,00'} ${p.price.parcelado ? ' / ' + p.price.parcelado : ''}`
@@ -224,16 +232,28 @@ function renderProducts(list){
 
 const modal = $('#productModal');
 function openProductModal(p){
-  $('#modalImage').src=p.images[0];
-  $('#modalTitle').textContent=p.name;
-  $('#modalDesc').textContent=p.description;
-  $('#modalPrice').textContent=p.price;
+  $('#modalImage').src = p.images[0];
+  $('#modalTitle').textContent = p.name;
+  $('#modalDesc').textContent = p.description;
+
+  const specsList = $('#modalspecs');
+  specsList.innerHTML = '';
+  if(Array.isArray(p.specs)){
+    p.specs.forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = s;
+      specsList.appendChild(li);
+    });
+  }
+
+  $('#modalPrice').textContent = p.price;
   modal.classList.add('active'); 
   modal.setAttribute('aria-hidden','false');
-  $('#buyWhatsappBtn').onclick=()=>{
-    const name=encodeURIComponent($('#modalCustomerName').value.trim()||'Cliente');
-    const msg=encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
+
+  $('#buyWhatsappBtn').onclick = () => {
+    const name = encodeURIComponent($('#modalCustomerName').value.trim() || 'Cliente');
+    const msg = encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
   };
 }
 
@@ -246,6 +266,7 @@ window.addEventListener('scroll',()=>{$('#scrollTopBtn').style.display=window.sc
 $('#scrollTopBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
 $('#sortSelect').addEventListener('change',()=>renderProducts(allProducts));
+
 document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 </script>
 
@@ -257,7 +278,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
       <div class="flex flex-col justify-center gap-4">
         <p class="text-lg"><i class="fas fa-phone-alt"></i> Telefone: (64) 99951-8536</p>
         <p class="text-lg"><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/5564999518536" class="underline">Clique para falar</a></p>
-        <p class="text-lg"><i class="fas fa-map-marker-alt"></i> Endereço: Quarta Avenida, N 90, Mineiros - Goiás</p>
+        <p class="text-lg"><i class="fas fa-map-marker-alt"></i> Endereço: Quarta Avenida, N 94, Mineiros - Goiás</p>
         <p class="text-lg"><i class="fas fa-envelope"></i> Email: contato@soscelulares.com</p>
       </div>
     </div>
@@ -266,3 +287,4 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 
 </body>
 </html>
+
