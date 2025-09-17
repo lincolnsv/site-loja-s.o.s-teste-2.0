@@ -136,13 +136,7 @@ setInterval(() => {
       <div>
         <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
         <p id="modalDesc" class="text-sm text-gray-700 mb-3"></p>
-
-        <!-- Specs -->
-        <div class="mb-3">
-          <h3 class="font-semibold mb-1">Especificações:</h3>
-          <ul id="modalspecs" class="list-disc list-inside text-sm text-gray-700"></ul>
-        </div>
-
+        <ul id="modalspecs" class="list-disc list-inside mb-3 text-gray-700"></ul>
         <div class="mb-3">
           <span class="text-xl font-bold text-blue-600" id="modalPrice"></span>
         </div>
@@ -165,6 +159,7 @@ let allProducts = [];
 const WHATSAPP_NUMBER = "5564999518536";
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
 function formatCurrency(v){ return typeof v==='number'? 'R$ '+v.toFixed(2).replace('.',','): v; }
 
 async function loadProducts(){
@@ -178,8 +173,8 @@ async function loadProducts(){
       description: p.description ?? '',
       specs: p.specs ?? [],
       images: p.images?.length ? p.images : p.image ? [p.image] : ['imagens/placeholder.png'],
-      price: (typeof p.price==='object') 
-        ? `${p.price.avista ?? 'R$ 0,00'} ${p.price.parcelado ? ' / ' + p.price.parcelado : ''}`
+      price: typeof p.price==='object' 
+        ? `${p.price.avista ?? 'R$ 0,00'}${p.price.parcelado ? ' / ' + p.price.parcelado : ''}`
         : p.price ?? 'R$ 0,00',
       rawPrice: parseFloat((typeof p.price==='object'?p.price.avista:p.price).replace(/[^\d.,]/g,'')) || 0
     }));
@@ -191,9 +186,9 @@ async function loadProducts(){
 }
 
 function renderProducts(list){
-  $('#catalogNovos').innerHTML=''; 
-  $('#catalogSeminovos').innerHTML=''; 
-  $('#catalogAcessorios').innerHTML=''; 
+  $('#catalogNovos').innerHTML='';
+  $('#catalogSeminovos').innerHTML='';
+  $('#catalogAcessorios').innerHTML='';
 
   if(!list.length){
     $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; 
@@ -220,12 +215,13 @@ function renderProducts(list){
 
     if(p.category.toLowerCase() === 'novo') $('#catalogNovos').appendChild(card);
     else if(p.category.toLowerCase() === 'seminovo') $('#catalogSeminovos').appendChild(card);
-    else if(p.category.toLowerCase().includes('acessorios')) $('#catalogAcessorios').appendChild(card);
+    else if(p.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,'') === 'acessorios') 
+      $('#catalogAcessorios').appendChild(card);
   });
 
   $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
-    const id=e.currentTarget.dataset.id;
-    const prod=allProducts.find(x=>x.id==id);
+    const id = e.currentTarget.dataset.id;
+    const prod = allProducts.find(x=>x.id==id);
     if(prod) openProductModal(prod);
   }));
 }
@@ -239,7 +235,7 @@ function openProductModal(p){
   const specsList = $('#modalspecs');
   specsList.innerHTML = '';
   if(Array.isArray(p.specs)){
-    p.specs.forEach(s => {
+    p.specs.forEach(s=>{
       const li = document.createElement('li');
       li.textContent = s;
       specsList.appendChild(li);
@@ -250,10 +246,10 @@ function openProductModal(p){
   modal.classList.add('active'); 
   modal.setAttribute('aria-hidden','false');
 
-  $('#buyWhatsappBtn').onclick = () => {
+  $('#buyWhatsappBtn').onclick = ()=>{
     const name = encodeURIComponent($('#modalCustomerName').value.trim() || 'Cliente');
     const msg = encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
   };
 }
 
@@ -287,4 +283,5 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 
 </body>
 </html>
+
 
