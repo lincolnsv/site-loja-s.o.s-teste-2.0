@@ -192,7 +192,7 @@ async function loadProducts(){
 function renderProducts(list){
   $('#catalogNovos').innerHTML=''; 
   $('#catalogSeminovos').innerHTML=''; 
-  $('#catalogAcessorios').innerHTML=''; 
+  $('#catalogAcessórios').innerHTML=''; 
 
   if(!list.length){
     $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; 
@@ -219,7 +219,7 @@ function renderProducts(list){
 
     if(p.category.toLowerCase() === 'novo') $('#catalogNovos').appendChild(card);
     else if(p.category.toLowerCase() === 'seminovo') $('#catalogSeminovos').appendChild(card);
-    else if(p.category.toLowerCase().includes('acessor')) $('#catalogAcessorios').appendChild(card);
+    else if(p.category.toLowerCase().includes('acessórios')) $('#catalogAcessorios').appendChild(card);
   });
 
   $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
@@ -234,6 +234,7 @@ function openProductModal(p){
   $('#modalImage').src=p.images[0];
   $('#modalTitle').textContent=p.name;
   $('#modalDesc').textContent=p.description;
+  $('#modalspecs').textContent=p.specs;
   $('#modalPrice').textContent=p.price;
   modal.classList.add('active'); 
   modal.setAttribute('aria-hidden','false');
@@ -274,3 +275,4 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 
 </body>
 </html>
+
