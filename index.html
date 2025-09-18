@@ -4,38 +4,110 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>S.O.S Celulares - Novos e Seminovos</title>
+
+<!-- TailwindCSS para estilos rápidos e responsivos -->
 <script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Font Awesome para ícones -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
 <style>
-  body { background: linear-gradient(to bottom, #bfdbfe, #eff6ff); scroll-behavior: smooth; }
-  .card-hover { position: relative; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
-  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
+  /* Estilo de fundo do body e rolagem suave */
+  body { 
+    background: linear-gradient(to bottom, #bfdbfe, #eff6ff); 
+    scroll-behavior: smooth; 
+  }
+
+  /* Efeito hover nos cards de produto */
+  .card-hover { 
+    position: relative; 
+    overflow: hidden; 
+    transition: transform 0.25s, box-shadow 0.25s; 
+  }
+  .card-hover:hover { 
+    transform: translateY(-6px); 
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12); 
+  }
+
+  /* Botão de favorito ativo (vermelho) */
   .favorite-btn.active { color: #ef4444; }
-  .product-modal { transition: all 0.25s ease; opacity: 0; visibility: hidden; position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 60; }
-  .product-modal.active { opacity: 1; visibility: visible; }
-  .modal-overlay { background-color: rgba(0,0,0,0.65); position: absolute; inset:0; }
-  .modal-card { background: white; border-radius: 1rem; max-width: 95%; width: 900px; max-height: 90vh; overflow-y: auto; padding: 1.25rem; position: relative; }
+
+  /* Modal de produto (inicialmente invisível) */
+  .product-modal { 
+    transition: all 0.25s ease; 
+    opacity: 0; 
+    visibility: hidden; 
+    position: fixed; 
+    inset: 0; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 60; 
+  }
+  .product-modal.active { 
+    opacity: 1; 
+    visibility: visible; 
+  }
+
+  /* Sobreposição escura atrás do modal */
+  .modal-overlay { 
+    background-color: rgba(0,0,0,0.65); 
+    position: absolute; 
+    inset:0; 
+  }
+
+  /* Card do modal */
+  .modal-card { 
+    background: white; 
+    border-radius: 1rem; 
+    max-width: 95%; 
+    width: 900px; 
+    max-height: 90vh; 
+    overflow-y: auto; 
+    padding: 1.25rem; 
+    position: relative; 
+  }
+
+  /* Menu mobile (escondido por padrão) */
   .mobile-menu { display: none; flex-direction: column; gap: 0.5rem; }
   .menu-toggle { display: none; cursor: pointer; font-size: 1.25rem; }
-  @media(max-width: 768px){ nav.desktop-menu { display: none; } .menu-toggle { display: block; color: white; } .mobile-menu.show { display: flex; } }
-  .scroll-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #2563eb; color: white; padding: 0.6rem 0.8rem; border-radius: 9999px; cursor: pointer; display: none; z-index: 80; transition: transform 0.15s; }
-  .scroll-to-top:hover { transform: scale(1.06); }
-  .hidden-on-small { display: none; } @media(min-width:768px){ .hidden-on-small { display: block; } }
 
-  /* BLOQUEIO DE FUNDO QUANDO O MODAL ESTÁ ABERTO */
-  body.modal-open {
-    overflow: hidden;
+  /* Responsividade: mostra menu mobile em telas pequenas */
+  @media(max-width: 768px){ 
+    nav.desktop-menu { display: none; } 
+    .menu-toggle { display: block; color: white; } 
+    .mobile-menu.show { display: flex; } 
   }
+
+  /* Botão voltar ao topo */
+  .scroll-to-top { 
+    position: fixed; bottom: 2rem; right: 2rem; 
+    background: #2563eb; color: white; 
+    padding: 0.6rem 0.8rem; border-radius: 9999px; 
+    cursor: pointer; display: none; z-index: 80; 
+    transition: transform 0.15s; 
+  }
+  .scroll-to-top:hover { transform: scale(1.06); }
+
+  /* Oculta elementos em telas pequenas */
+  .hidden-on-small { display: none; } 
+  @media(min-width:768px){ .hidden-on-small { display: block; } }
+
+  /* Bloqueio de fundo quando o modal está aberto */
+  body.modal-open { overflow: hidden; }
 </style>
 </head>
 <body class="font-sans text-gray-800">
 
-<!-- Scroll to top -->
-<button id="scrollTopBtn" class="scroll-to-top" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
+<!-- Botão para subir ao topo da página -->
+<button id="scrollTopBtn" class="scroll-to-top" aria-label="Voltar ao topo">
+  <i class="fas fa-arrow-up"></i>
+</button>
 
-<!-- Header -->
+<!-- Header / Cabeçalho -->
 <header class="bg-blue-600 text-white sticky top-0 z-50 shadow">
   <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <!-- Logo e título -->
     <a href="#" class="flex items-center gap-3">
       <img src="imagens/logo.png" alt="S.O.S Celulares" class="h-16 w-auto" />
       <div>
@@ -44,6 +116,7 @@
       </div>
     </a>
 
+    <!-- Menu desktop -->
     <nav class="desktop-menu flex items-center gap-6">
       <a href="#novos" class="hover:underline font-bold">Novos</a>
       <a href="#seminovos" class="hover:underline font-bold">Seminovos</a>
@@ -51,6 +124,7 @@
       <a href="#contato" class="hover:underline font-bold">Contato</a>
     </nav>
 
+    <!-- Barra de pesquisa e menu mobile toggle -->
     <div class="flex items-center gap-4">
       <div class="hidden md:flex items-center bg-white rounded-full px-3 py-1">
         <input id="searchInput" type="search" placeholder="Pesquisar produtos..." class="outline-none text-sm px-2" />
@@ -59,6 +133,8 @@
       <button id="menuToggle" class="menu-toggle md:hidden"><i class="fas fa-bars"></i></button>
     </div>
   </div>
+
+  <!-- Menu mobile escondido por padrão -->
   <div id="mobileMenu" class="mobile-menu px-4 pb-4 bg-blue-600">
     <a href="#novos" class="text-white font-semibold">Novos</a>
     <a href="#seminovos" class="text-white font-semibold">Seminovos</a>
@@ -67,7 +143,7 @@
   </div>
 </header>
 
-<!-- Hero -->
+<!-- Hero / Banner principal -->
 <section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-16">
   <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
     <div class="md:w-1/2">
@@ -81,11 +157,13 @@
       </div>
     </div>
     <div class="md:w-1/2 flex justify-center">
+      <!-- Imagem que será alterada automaticamente -->
       <img id="destaqueImagem" src="imagens/realme-c75x-1.png" alt="Smartphones" class="max-w-md rounded-xl shadow-lg">
     </div>
   </div>
 </section>
 
+<!-- Script para alterar a imagem do destaque automaticamente -->
 <script>
 const imagensNovos = [
   'imagens/realme-c75x-1.png',
@@ -96,13 +174,15 @@ const imagensNovos = [
 ];
 let indice = 0;
 const destaque = document.getElementById('destaqueImagem');
+
+// Muda a imagem a cada 3 segundos
 setInterval(() => {
   indice = (indice + 1) % imagensNovos.length;
   destaque.src = imagensNovos[indice];
 }, 3000);
 </script>
 
-<!-- Ordenação -->
+<!-- Ordenação de produtos -->
 <div class="mb-8 flex items-center gap-3 px-4">
   <div class="text-sm text-gray-600">Ordenar:</div>
   <select id="sortSelect" class="px-3 py-1 rounded border">
@@ -122,12 +202,12 @@ setInterval(() => {
 <h2 id="acessorios" class="text-2xl font-bold mb-4 text-blue-700 px-4">🎧 Acessórios</h2>
 <section id="catalogAcessorios" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6 px-4"></section>
 
-<!-- WhatsApp floating -->
+<!-- WhatsApp flutuante -->
 <a href="https://wa.me/5564999518536" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition z-40" aria-label="WhatsApp">
   <i class="fab fa-whatsapp text-2xl"></i>
 </a>
 
-<!-- Modal Produto -->
+<!-- Modal de produto -->
 <div id="productModal" class="product-modal" role="dialog" aria-hidden="true">
   <div class="modal-overlay" id="modalOverlay"></div>
   <div class="modal-card" role="document" aria-modal="true">
@@ -159,18 +239,20 @@ setInterval(() => {
   </div>
 </div>
 
+<!-- Aqui vai o JS que carrega produtos, renderiza cards e controla modal -->
 <script>
-let allProducts = [];
+let allProducts = []; // Array de todos os produtos
 const WHATSAPP_NUMBER = "5564995195046";
-const $ = (sel) => document.querySelector(sel);
-const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+const $ = (sel) => document.querySelector(sel); // Função helper para querySelector
+const $$ = (sel) => Array.from(document.querySelectorAll(sel)); // Função helper para querySelectorAll
 
+// Função que carrega os produtos do arquivo JSON
 async function loadProducts(){
   try{
-    const res = await fetch('produtos.json');
+    const res = await fetch('produtos.json'); // Busca produtos
     const data = await res.json();
     allProducts = data.map(p=>({
-      id: p.id ?? Math.random().toString(36).slice(2,9),
+      id: p.id ?? Math.random().toString(36).slice(2,9), // Gera ID se não existir
       name: p.name ?? 'Produto',
       category: p.category ?? 'Novo',
       description: p.description ?? '',
@@ -188,6 +270,7 @@ async function loadProducts(){
   }
 }
 
+// Renderiza produtos nas seções
 function renderProducts(list){
   $('#catalogNovos').innerHTML='';
   $('#catalogSeminovos').innerHTML='';
@@ -205,7 +288,7 @@ function renderProducts(list){
     produtosCat.forEach((p, i)=>{
       const card = document.createElement('article');
       card.className='card-hover bg-white rounded-lg overflow-hidden shadow transition';
-      card.style.display = i < 3 ? 'block' : 'none';
+      card.style.display = i < 3 ? 'block' : 'none'; // Mostra só os 3 primeiros
       card.innerHTML=`
         <div class="relative h-48 bg-gray-100 flex items-center justify-center p-3">
           <img loading="lazy" src="${p.images[0]}" alt="${p.name}" class="max-h-full max-w-full object-contain" />
@@ -223,6 +306,7 @@ function renderProducts(list){
       container.appendChild(card);
     });
 
+    // Botão "Ver Mais"
     if (produtosCat.length > 3) {
       const verMaisCard = document.createElement('div');
       verMaisCard.className = 'col-span-full flex justify-center mt-4';
@@ -251,6 +335,7 @@ function renderProducts(list){
   renderCategory("catalogSeminovos", list.filter(p=>p.category.toLowerCase()==='seminovo'));
   renderCategory("catalogAcessorios", list.filter(p=>p.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,'')==='acessorios'));
 
+  // Botão detalhes abre modal
   $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
     const id = e.currentTarget.dataset.id;
     const prod = allProducts.find(x=>x.id==id);
@@ -258,6 +343,7 @@ function renderProducts(list){
   }));
 }
 
+// Função abre modal com informações do produto
 const modal = $('#productModal');
 function openProductModal(p){
   $('#modalImage').src = p.images[0];
@@ -278,9 +364,10 @@ function openProductModal(p){
   modal.classList.add('active'); 
   modal.setAttribute('aria-hidden','false');
 
-  // BLOQUEIA O FUNDO
+  // Bloqueia fundo
   document.body.classList.add('modal-open');
 
+  // Comprar via WhatsApp
   $('#buyWhatsappBtn').onclick = ()=>{
     const name = encodeURIComponent($('#modalCustomerName').value.trim() || 'Cliente');
     const msg = encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
@@ -288,22 +375,25 @@ function openProductModal(p){
   };
 }
 
+// Fecha modal
 const closeModal = () => {
   modal.classList.remove('active');
   modal.setAttribute('aria-hidden','true');
-  // LIBERA O FUNDO
-  document.body.classList.remove('modal-open');
+  document.body.classList.remove('modal-open'); // Libera fundo
 };
 
 $('#closeProductModal').addEventListener('click', closeModal);
 $('#modalOverlay').addEventListener('click', closeModal);
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
+// Menu mobile toggle
 $('#menuToggle').addEventListener('click',()=>$('#mobileMenu').classList.toggle('show'));
+
+// Scroll to top
 window.addEventListener('scroll',()=>{$('#scrollTopBtn').style.display=window.scrollY>300?'block':'none';});
 $('#scrollTopBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-/* Correção da ordenação */
+// Ordenação de produtos
 $('#sortSelect').addEventListener('change',()=>{
   let sorted = [...allProducts];
   const option = $('#sortSelect').value;
@@ -315,6 +405,7 @@ $('#sortSelect').addEventListener('change',()=>{
   renderProducts(sorted);
 });
 
+// Carrega produtos ao iniciar
 document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 </script>
 
@@ -323,6 +414,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
   <div class="container mx-auto px-4">
     <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8">Fale Conosco</h2>
     <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6 space-y-6 hover:shadow-xl transition">
+      <!-- WhatsApp -->
       <div class="flex flex-col md:flex-row items-center">
         <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-6">
           <i class="fas fa-phone-alt text-blue-600 text-2xl"></i>
@@ -334,6 +426,8 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
           <a href="https://wa.me/5564995195046" class="text-blue-600 font-medium hover:underline">(64) 9951-9504</a>
         </div>
       </div>
+
+      <!-- Endereço -->
       <div class="flex flex-col md:flex-row items-center">
         <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-6">
           <i class="fas fa-map-marker-alt text-blue-600 text-2xl"></i>
@@ -347,7 +441,6 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </section>
-
 
 <!-- Footer -->
 <footer class="bg-gray-800 text-white py-8">
@@ -367,11 +460,3 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </footer>
-
-<script>
-let products = [];
-
-</body>
-</html>
-
-
