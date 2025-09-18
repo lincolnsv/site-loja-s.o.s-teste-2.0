@@ -353,20 +353,21 @@ function renderProducts(list){
       const card = document.createElement('article');
       card.className='card-hover bg-white rounded-lg overflow-hidden shadow transition';
       card.style.display = i < 3 ? 'block' : 'none'; // Mostra só os 3 primeiros
+
       card.innerHTML=`
-        <div class="relative h-48 bg-gray-100 flex items-center justify-center p-3">
-          <img loading="lazy" src="${p.images[0]}" alt="${p.name}" class="max-h-full max-w-full object-contain" />
-          <button class="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-lg font-semibold opacity-0 hover:opacity-100 transition">Ver</button>
+        <div class="relative h-48 bg-gray-100 flex items-center justify-center p-3 overflow-hidden">
+          <img loading="lazy" src="${p.images[0]}" alt="${p.name}" class="max-h-full max-w-full object-contain transition-transform duration-300" />
         </div>
         <div class="p-4">
           <h3 class="text-lg font-bold text-gray-800 mb-1">${p.name}</h3>
           <p class="text-gray-600 text-sm mb-2 line-clamp-3">${p.description||''}</p>
           <div class="flex items-center justify-between">
             <div class="text-blue-600 font-bold">${p.price}</div>
-            <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm" data-id="${p.id}">Detalhes</button>
+            <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm opacity-0 translate-y-2 transition-all duration-300" data-id="${p.id}">Detalhes</button>
           </div>
         </div>
       `;
+
       container.appendChild(card);
     });
 
@@ -400,12 +401,21 @@ function renderProducts(list){
   renderCategory("catalogAcessorios", list.filter(p=>p.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,'')==='acessorios'));
 
   // Botão detalhes abre modal
-  $$('.btn-view').forEach(btn=>btn.addEventListener('click',e=>{
-    const id = e.currentTarget.dataset.id;
-    const prod = allProducts.find(x=>x.id==id);
-    if(prod) openProductModal(prod);
-  }));
+  $$('.btn-view').forEach(btn=>{
+    const card = btn.closest('.card-hover');
+
+    // Hover animation do botão
+    card.addEventListener('mouseenter',()=> btn.classList.remove('opacity-0','translate-y-2'));
+    card.addEventListener('mouseleave',()=> btn.classList.add('opacity-0','translate-y-2'));
+
+    btn.addEventListener('click',e=>{
+      const id = e.currentTarget.dataset.id;
+      const prod = allProducts.find(x=>x.id==id);
+      if(prod) openProductModal(prod);
+    });
+  });
 }
+
 
 // Função abre modal com informações do produto
 const modal = $('#productModal');
@@ -549,6 +559,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </footer>
+
 
 
 
