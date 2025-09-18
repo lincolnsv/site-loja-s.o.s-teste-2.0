@@ -125,14 +125,23 @@
     </nav>
 
     <!-- Barra de pesquisa e menu mobile toggle -->
-    <div class="flex items-center gap-4">
-      <div class="hidden md:flex items-center bg-white rounded-full px-3 py-1">
-        <input id="searchInput" type="search" placeholder="Pesquisar produtos..." class="outline-none text-sm px-2" />
-        <button id="searchBtn" class="text-blue-600 px-2"><i class="fas fa-search"></i></button>
-      </div>
-      <button id="menuToggle" class="menu-toggle md:hidden"><i class="fas fa-bars"></i></button>
-    </div>
+<div class="flex items-center gap-4">
+  <div class="hidden md:flex items-center bg-white rounded-full px-3 py-1">
+    <input 
+      id="searchInput" 
+      type="search" 
+      placeholder="Pesquisar produtos..." 
+      class="outline-none text-sm px-2 text-black placeholder-gray-400"
+    />
+    <button id="searchBtn" class="text-blue-600 px-2">
+      <i class="fas fa-search"></i>
+    </button>
   </div>
+  <button id="menuToggle" class="menu-toggle md:hidden">
+    <i class="fas fa-bars"></i>
+  </button>
+</div>
+
 
   <!-- Menu mobile escondido por padrão -->
   <div id="mobileMenu" class="mobile-menu px-4 pb-4 bg-blue-600">
@@ -482,6 +491,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </footer>
+
 
 
 
