@@ -1,113 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>S.O.S Celulares - Novos e Seminovos</title>
-
-<!-- TailwindCSS para estilos rápidos e responsivos -->
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Font Awesome para ícones -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-  /* Estilo de fundo do body e rolagem suave */
-  body { 
-    background: linear-gradient(to bottom, #bfdbfe, #eff6ff); 
-    scroll-behavior: smooth; 
-  }
-
-  /* Efeito hover nos cards de produto */
-  .card-hover { 
-    position: relative; 
-    overflow: hidden; 
-    transition: transform 0.25s, box-shadow 0.25s; 
-  }
-  .card-hover:hover { 
-    transform: translateY(-6px); 
-    box-shadow: 0 12px 24px rgba(0,0,0,0.12); 
-  }
-
-  /* Botão de favorito ativo (vermelho) */
-  .favorite-btn.active { color: #ef4444; }
-
-  /* Modal de produto (inicialmente invisível) */
-  .product-modal { 
-    transition: all 0.25s ease; 
-    opacity: 0; 
-    visibility: hidden; 
-    position: fixed; 
-    inset: 0; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    z-index: 60; 
-  }
-  .product-modal.active { 
-    opacity: 1; 
-    visibility: visible; 
-  }
-
-  /* Sobreposição escura atrás do modal */
-  .modal-overlay { 
-    background-color: rgba(0,0,0,0.65); 
-    position: absolute; 
-    inset:0; 
-  }
-
-  /* Card do modal */
-  .modal-card { 
-    background: white; 
-    border-radius: 1rem; 
-    max-width: 95%; 
-    width: 900px; 
-    max-height: 90vh; 
-    overflow-y: auto; 
-    padding: 1.25rem; 
-    position: relative; 
-  }
-
-  /* Menu mobile (escondido por padrão) */
-  .mobile-menu { display: none; flex-direction: column; gap: 0.5rem; }
-  .menu-toggle { display: none; cursor: pointer; font-size: 1.25rem; }
-
-  /* Responsividade: mostra menu mobile em telas pequenas */
-  @media(max-width: 768px){ 
-    nav.desktop-menu { display: none; } 
-    .menu-toggle { display: block; color: white; } 
-    .mobile-menu.show { display: flex; } 
-  }
-
-  /* Botão voltar ao topo */
-  .scroll-to-top { 
-    position: fixed; bottom: 2rem; right: 2rem; 
-    background: #2563eb; color: white; 
-    padding: 0.6rem 0.8rem; border-radius: 9999px; 
-    cursor: pointer; display: none; z-index: 80; 
-    transition: transform 0.15s; 
-  }
+  /* Custom Styles */
+  body { scroll-behavior: smooth; }
+  .card-hover { transition: transform 0.25s, box-shadow 0.25s; }
+  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
+  .product-modal { opacity:0; visibility:hidden; position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:60; transition:all 0.25s ease;}
+  .product-modal.active { opacity:1; visibility:visible; }
+  .modal-overlay { background-color: rgba(0,0,0,0.65); position:absolute; inset:0; }
+  .modal-card { background:white; border-radius:1rem; max-width:95%; width:900px; max-height:90vh; overflow-y:auto; padding:1.25rem; position:relative; }
+  .mobile-menu { display:none; flex-direction:column; gap:0.5rem; }
+  .menu-toggle { display:none; cursor:pointer; font-size:1.25rem; }
+  @media(max-width:768px){ nav.desktop-menu { display:none; } .menu-toggle { display:block; color:white; } .mobile-menu.show { display:flex; } }
+  .scroll-to-top { position:fixed; bottom:2rem; right:2rem; background:#2563eb; color:white; padding:0.6rem 0.8rem; border-radius:9999px; cursor:pointer; display:none; z-index:80; transition:transform 0.15s; }
   .scroll-to-top:hover { transform: scale(1.06); }
-
-  /* Oculta elementos em telas pequenas */
-  .hidden-on-small { display: none; } 
-  @media(min-width:768px){ .hidden-on-small { display: block; } }
-
-  /* Bloqueio de fundo quando o modal está aberto */
-  body.modal-open { overflow: hidden; }
+  .hidden-on-small { display:none; } @media(min-width:768px){ .hidden-on-small { display:block; } }
+  body.modal-open { overflow:hidden; }
 </style>
 </head>
-<body class="font-sans text-gray-800">
+<body class="font-sans text-gray-800 dark:bg-gray-900 dark:text-gray-200">
 
-<!-- Botão para subir ao topo da página -->
-<button id="scrollTopBtn" class="scroll-to-top" aria-label="Voltar ao topo">
-  <i class="fas fa-arrow-up"></i>
+<!-- Botão Dark Mode -->
+<button id="darkModeToggle" class="fixed top-4 right-4 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-1 rounded z-50">
+  🌙
 </button>
 
-<!-- Header / Cabeçalho -->
-<header class="bg-blue-600 text-white sticky top-0 z-50 shadow">
+<!-- Botão subir ao topo -->
+<button id="scrollTopBtn" class="scroll-to-top" aria-label="Voltar ao topo"><i class="fas fa-arrow-up"></i></button>
+
+<!-- Header -->
+<header class="bg-blue-600 dark:bg-gray-800 text-white sticky top-0 z-50 shadow">
   <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-    <!-- Logo e título -->
     <a href="#" class="flex items-center gap-3">
       <img src="imagens/logo.png" alt="S.O.S Celulares" class="h-16 w-auto" />
       <div>
@@ -118,145 +48,53 @@
 
     <!-- Menu desktop -->
     <nav class="desktop-menu flex items-center gap-6">
-  <a href="#novos" class="relative font-bold text-gray-800 after:block after:absolute after:h-0.5 after:w-0 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full">Novos</a>
-  <a href="#seminovos" class="relative font-bold text-gray-800 after:block after:absolute after:h-0.5 after:w-0 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full">Seminovos</a>
-  <a href="#acessorios" class="relative font-bold text-gray-800 after:block after:absolute after:h-0.5 after:w-0 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full">Acessórios</a>
-  <a href="#contato" class="relative font-bold text-gray-800 after:block after:absolute after:h-0.5 after:w-0 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full">Contato</a>
-</nav>
+      <a href="#novos" class="relative font-bold after:block after:absolute after:h-0.5 after:w-0 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full">Novos</a>
+      <a href="#seminovos" class="relative font-bold after:block after:absolute after:h-0.5 after:w-0 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full">Seminovos</a>
+      <a href="#acessorios" class="relative font-bold after:block after:absolute after:h-0.5 after:w-0 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full">Acessórios</a>
+      <a href="#contato" class="relative font-bold after:block after:absolute after:h-0.5 after:w-0 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full">Contato</a>
+    </nav>
 
-
-    <!-- Barra de pesquisa e menu mobile toggle -->
+    <!-- Pesquisa + Menu mobile -->
     <div class="flex items-center gap-4">
-      <div class="hidden md:flex items-center bg-white rounded-full px-3 py-1">
-        <input 
-          id="searchInput" 
-          type="search" 
-          placeholder="Pesquisar produtos..." 
-          class="outline-none text-sm px-2 text-black placeholder-gray-400"
-        />
-        <button id="searchBtn" class="text-blue-600 px-2">
-          <i class="fas fa-search"></i>
-        </button>
+      <div class="hidden md:flex items-center bg-white dark:bg-gray-700 rounded-full px-3 py-1">
+        <input id="searchInput" type="search" placeholder="Pesquisar produtos..." class="outline-none text-sm px-2 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-300" />
+        <button id="searchBtn" class="text-blue-600 dark:text-blue-400 px-2"><i class="fas fa-search"></i></button>
       </div>
-      <button id="menuToggle" class="menu-toggle md:hidden">
-        <i class="fas fa-bars"></i>
-      </button>
+      <button id="menuToggle" class="menu-toggle md:hidden"><i class="fas fa-bars"></i></button>
     </div>
 
-    <!-- Menu mobile escondido por padrão -->
-    <div id="mobileMenu" class="mobile-menu px-4 pb-4 bg-blue-600">
+    <div id="mobileMenu" class="mobile-menu px-4 pb-4 bg-blue-600 dark:bg-gray-800">
       <a href="#novos" class="text-white font-semibold">Novos</a>
       <a href="#seminovos" class="text-white font-semibold">Seminovos</a>
       <a href="#acessorios" class="text-white font-semibold">Acessórios</a>
       <a href="#contato" class="text-white font-semibold">Contato</a>
     </div>
+  </div>
 </header>
 
-<!-- Script para barra de pesquisa -->
-<script>
-// Pega os elementos
-const searchInput = document.getElementById('searchInput');
-const searchBtn = document.getElementById('searchBtn');
-
-// Função que filtra produtos
-function pesquisar() {
-  const termo = searchInput.value.trim().toLowerCase();
-  if (!termo) return renderProducts(allProducts); // Se vazio, mostra todos
-
-  const filtrados = allProducts.filter(p =>
-    p.name.toLowerCase().includes(termo) ||
-    p.description.toLowerCase().includes(termo)
-  );
-
-  renderProducts(filtrados);
-}
-
-// Filtra enquanto o usuário digita
-searchInput.addEventListener('input', pesquisar);
-
-// Mantém a opção de pesquisar ao clicar na lupa
-searchBtn.addEventListener('click', pesquisar);
-
-// Mantém a opção de pesquisar ao apertar Enter
-searchInput.addEventListener('keypress', e => {
-  if (e.key === 'Enter') pesquisar();
-});
-</script>
-
-<!-- Hero / Banner principal -->
-<section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2">
+<!-- Hero -->
+<section class="bg-gradient-to-r from-blue-500 to-blue-700 dark:from-gray-700 dark:to-gray-900 text-white py-8">
   <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
-    <div class="md:w-1/2">
-      <!-- Conteúdo do texto com slides -->
-      <div id="textoSlider">
-        <div class="slide text-center md:text-left">
-          <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Celulares Novos e Seminovos com Garantia</h1>
-          <p class="text-lg md:text-xl mb-6">Os melhores preços e condições — peça pelo WhatsApp e receba atendimento rápido.</p>
-        </div>
-        <div class="slide text-center md:text-left hidden">
-          <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Promoções Imperdíveis!</h1>
-          <p class="text-lg md:text-xl mb-6">Descontos exclusivos em modelos selecionados.</p>
-        </div>
-        <div class="slide text-center md:text-left hidden">
-          <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Visite Nossa Loja Física</h1>
-          <p class="text-lg md:text-xl mb-6">Todos os produtos disponíveis para visualização no site e pedidos via WhatsApp.</p>
-        </div>
-      </div>
-
-      <!-- Botões de ação -->
-      <div class="flex gap-3">
-        <a href="#novos" class="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold hover:bg-gray-100">Ver Produtos</a>
-        <a href="https://wa.me/556499519504" target="_blank" class="bg-green-500 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold flex items-center gap-2 hover:bg-green-600">
+    <div class="md:w-1/2 text-center md:text-left">
+      <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Celulares Novos e Seminovos com Garantia</h1>
+      <p class="text-lg md:text-xl mb-6">Os melhores preços e condições — peça pelo WhatsApp e receba atendimento rápido.</p>
+      <div class="flex gap-3 justify-center md:justify-start">
+        <a href="#novos" class="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold hover:bg-gray-100 dark:hover:bg-gray-700">Ver Produtos</a>
+        <a href="https://wa.me/5564999984690" target="_blank" class="bg-green-500 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold flex items-center gap-2 hover:bg-green-600">
           <i class="fab fa-whatsapp"></i> Fale no WhatsApp
         </a>
       </div>
     </div>
-
     <div class="md:w-1/2 flex justify-center">
-      <!-- Imagem que será alterada automaticamente -->
       <img id="destaqueImagem" src="imagens/realme-note-14s-1.png" alt="Smartphones" class="w-3/4 sm:w-2/3 md:w-2/3 rounded-xl shadow-lg">
     </div>
   </div>
 </section>
 
-<!-- Script para alterar a imagem do destaque automaticamente -->
-<script>
-const imagensNovos = [
-  'imagens/realme-note-14s-1.png',
-  'imagens/realme-note-60x-1.png',
-  'imagens/realme_note70-1284-dourado-1.png',
-  'imagens/poco_m7pro_5g-2568-preto-1.png',
-  'imagens/poco_c75-2568-pretoverdegold-1.png'
-];
-let indice = 0;
-const destaque = document.getElementById('destaqueImagem');
-
-// Muda a imagem a cada 3 segundos
-setInterval(() => {
-  indice = (indice + 1) % imagensNovos.length;
-  destaque.src = imagensNovos[indice];
-}, 3000);
-
-// Texto slider
-const slides = document.querySelectorAll('#textoSlider .slide');
-let textoIndice = 0;
-
-function mostrarSlide(n) {
-  slides.forEach((slide, i) => slide.classList.toggle('hidden', i !== n));
-}
-
-// Rotação automática do texto a cada 5 segundos
-setInterval(() => {
-  textoIndice = (textoIndice + 1) % slides.length;
-  mostrarSlide(textoIndice);
-}, 3000);
-</script>
-
-
-<!-- Ordenação de produtos -->
+<!-- Ordenação -->
 <div class="mb-8 flex items-center gap-3 px-4">
-  <div class="text-sm text-gray-600">Ordenar:</div>
-  <select id="sortSelect" class="px-3 py-1 rounded border">
+  <div class="text-sm text-gray-600 dark:text-gray-300">Ordenar:</div>
+  <select id="sortSelect" class="px-3 py-1 rounded border dark:bg-gray-700 dark:text-white dark:border-gray-600">
     <option value="default">Relevância</option>
     <option value="price-asc">Preço: menor → maior</option>
     <option value="price-desc">Preço: maior → menor</option>
@@ -264,324 +102,166 @@ setInterval(() => {
 </div>
 
 <!-- Seções de produtos -->
-<h2 id="novos" class="text-2xl font-bold mb-4 text-blue-700 px-4">📱 Novos</h2>
+<h2 id="novos" class="text-2xl font-bold mb-4 text-blue-700 dark:text-blue-400 px-4">📱 Novos</h2>
 <section id="catalogNovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10 px-4"></section>
 
-<h2 id="seminovos" class="text-2xl font-bold mb-4 text-blue-700 px-4">📱 Seminovos</h2>
+<h2 id="seminovos" class="text-2xl font-bold mb-4 text-blue-700 dark:text-blue-400 px-4">📱 Seminovos</h2>
 <section id="catalogSeminovos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10 px-4"></section>
 
-<h2 id="acessorios" class="text-2xl font-bold mb-4 text-blue-700 px-4">🎧 Acessórios</h2>
+<h2 id="acessorios" class="text-2xl font-bold mb-4 text-blue-700 dark:text-blue-400 px-4">🎧 Acessórios</h2>
 <section id="catalogAcessorios" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6 px-4"></section>
 
-
-<!-- Modal de produto -->
+<!-- Modal -->
 <div id="productModal" class="product-modal" role="dialog" aria-hidden="true">
   <div class="modal-overlay" id="modalOverlay"></div>
-  <div class="modal-card" role="document" aria-modal="true">
-    <button id="closeProductModal" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900" aria-label="Fechar modal">
-      <i class="fas fa-times text-xl"></i>
-    </button>
-    <div id="modalInner" class="grid md:grid-cols-2 gap-4">
-      <div>
-        <img id="modalImage" src="" alt="" class="w-full rounded-md object-contain max-h-96" />
-      </div>
+  <div class="modal-card">
+    <button id="closeProductModal" class="absolute top-3 right-3 text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white"><i class="fas fa-times text-xl"></i></button>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div><img id="modalImage" src="" alt="" class="w-full rounded-md object-contain max-h-96"></div>
       <div>
         <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
-        <p id="modalDesc" class="text-sm text-gray-700 mb-3"></p>
-        <ul id="modalspecs" class="list-disc list-inside mb-3 text-gray-700"></ul>
-        <div class="mb-3">
-          <span class="text-xl font-bold text-blue-600" id="modalPrice"></span>
-        </div>
-        <div class="mb-3">
-          <label class="block font-semibold mb-1">Seu nome (opcional)</label>
-          <input id="modalCustomerName" type="text" placeholder="Digite seu nome" class="w-full px-3 py-2 border rounded" />
-        </div>
+        <p id="modalDesc" class="text-sm text-gray-700 dark:text-gray-300 mb-3"></p>
+        <ul id="modalspecs" class="list-disc list-inside mb-3 text-gray-700 dark:text-gray-300"></ul>
+        <div class="mb-3"><span class="text-xl font-bold text-blue-600 dark:text-blue-400" id="modalPrice"></span></div>
+        <div class="mb-3"><input id="modalCustomerName" type="text" placeholder="Seu nome (opcional)" class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:text-white dark:border-gray-600" /></div>
         <div class="flex gap-3">
-          <button id="buyWhatsappBtn" class="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-            <i class="fab fa-whatsapp"></i> Comprar via WhatsApp
-          </button>
+          <button id="buyWhatsappBtn" class="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"><i class="fab fa-whatsapp"></i> Comprar no WhatsApp</button>
+          <button id="closeModalBtn" class="bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-400 dark:hover:bg-gray-500">Fechar</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Aqui vai o JS que carrega produtos, renderiza cards e controla modal -->
-<script>
-let allProducts = []; // Array de todos os produtos
-const WHATSAPP_NUMBER = "556499519504";
-const $ = (sel) => document.querySelector(sel); // Função helper para querySelector
-const $$ = (sel) => Array.from(document.querySelectorAll(sel)); // Função helper para querySelectorAll
+<!-- Contato -->
+<section id="contato" class="bg-gray-100 dark:bg-gray-800 py-10 px-4 text-center">
+  <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">📞 Contato</h2>
+  <p>WhatsApp: <a href="https://wa.me/5564999984690" class="text-green-500 hover:underline">64 99998-4690</a></p>
+  <p>Email: <a href="mailto:contato@soscelulares.com" class="text-blue-600 hover:underline">contato@soscelulares.com</a></p>
+</section>
 
-// Função que carrega os produtos do arquivo JSON
+<!-- Footer -->
+<footer class="bg-blue-600 dark:bg-gray-900 text-white dark:text-gray-200 py-6 text-center">
+  &copy; 2025 S.O.S Celulares. Todos os direitos reservados.
+</footer>
+
+<!-- Scripts -->
+<script>
+const darkModeToggle = document.getElementById('darkModeToggle');
+darkModeToggle.addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  localStorage.setItem('darkMode',document.body.classList.contains('dark')?'enabled':'disabled');
+});
+if(localStorage.getItem('darkMode')==='enabled'){document.body.classList.add('dark');}
+
+document.getElementById('menuToggle').addEventListener('click',()=>document.getElementById('mobileMenu').classList.toggle('show'));
+
+const scrollTopBtn=document.getElementById('scrollTopBtn');
+window.addEventListener('scroll',()=>{scrollTopBtn.style.display=window.scrollY>300?'block':'none';});
+scrollTopBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// Produtos e Modal
+let allProducts=[];
+const WHATSAPP_NUMBER="556499519504";
+const $=(sel)=>document.querySelector(sel);
+const $$=(sel)=>Array.from(document.querySelectorAll(sel));
+
 async function loadProducts(){
   try{
-    const res = await fetch('produtos.json'); // Busca produtos
-    const data = await res.json();
-    allProducts = data.map(p=>({
-      id: p.id ?? Math.random().toString(36).slice(2,9), // Gera ID se não existir
-      name: p.name ?? 'Produto',
-      category: p.category ?? 'Novo',
-      description: p.description ?? '',
-      specs: p.specs ?? [],
-      images: p.images?.length ? p.images : p.image ? [p.image] : ['imagens/placeholder.png'],
-      price: typeof p.price==='object' 
-        ? `${p.price.avista ?? 'R$ 0,00'}${p.price.parcelado ? ' / ' + p.price.parcelado : ''}`
-        : p.price ?? 'R$ 0,00',
-      rawPrice: parseFloat((typeof p.price==='object'?p.price.avista:p.price).replace(/[^\d.,]/g,'')) || 0
+    const res=await fetch('produtos.json');
+    const data=await res.json();
+    allProducts=data.map(p=>({
+      id:p.id??Math.random().toString(36).slice(2,9),
+      name:p.name??'Produto',
+      category:p.category??'Novo',
+      description:p.description??'',
+      specs:p.specs??[],
+      images:p.images?.length?p.images:p.image?[p.image]:'imagens/placeholder.png',
+      price:typeof p.price==='object'?`${p.price.avista??'R$0,00'}${p.price.parcelado?'/'+p.price.parcelado:''}`:p.price??'R$0,00',
+      rawPrice:parseFloat((typeof p.price==='object'?p.price.avista:p.price).replace(/[^\d.,]/g,''))||0
     }));
     renderProducts(allProducts);
-  }catch(e){ 
-    console.error(e); 
-    $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-red-600">Erro ao carregar produtos.</p>'; 
-  }
+  }catch(e){console.error(e);}
 }
 
-// Renderiza produtos nas seções
 function renderProducts(list){
-  $('#catalogNovos').innerHTML='';
-  $('#catalogSeminovos').innerHTML='';
-  $('#catalogAcessorios').innerHTML='';
-
-  if(!list.length){
-    $('#catalogNovos').innerHTML='<p class="col-span-full text-center text-gray-600">Nenhum produto encontrado.</p>'; 
-    return;
-  }
-
-  function renderCategory(catId, produtosCat){
-    const container = document.getElementById(catId);
-    container.innerHTML = "";
-
-    produtosCat.forEach((p, i)=>{
-      const card = document.createElement('article');
-      card.className='card-hover bg-white rounded-lg overflow-hidden shadow transition';
-      card.style.display = i < 3 ? 'block' : 'none'; // Mostra só os 3 primeiros
-
+  $('#catalogNovos').innerHTML='';$('#catalogSeminovos').innerHTML='';$('#catalogAcessorios').innerHTML='';
+  function renderCategory(catId,produtosCat){
+    const container=document.getElementById(catId);
+    container.innerHTML='';
+    produtosCat.forEach((p,i)=>{
+      const card=document.createElement('article');
+      card.className='card-hover bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow transition';
+      card.style.display=i<3?'block':'none';
       card.innerHTML=`
-        <div class="relative h-48 bg-gray-100 flex items-center justify-center p-3 overflow-hidden">
-          <img loading="lazy" src="${p.images[0]}" alt="${p.name}" class="max-h-full max-w-full object-contain transition-transform duration-300" />
+        <div class="relative h-48 bg-gray-100 dark:bg-gray-800 flex items-center justify-center p-3 overflow-hidden">
+          <img src="${p.images[0]}" alt="${p.name}" class="max-h-full max-w-full object-contain transition-transform duration-300">
         </div>
         <div class="p-4">
-          <h3 class="text-lg font-bold text-gray-800 mb-1">${p.name}</h3>
-          <p class="text-gray-600 text-sm mb-2 line-clamp-3">${p.description||''}</p>
+          <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-1">${p.name}</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-3">${p.description}</p>
           <div class="flex items-center justify-between">
-            <div class="text-blue-600 font-bold">${p.price}</div>
-            <button class="btn-view bg-blue-600 text-white px-3 py-1 rounded text-sm opacity-0 translate-y-2 transition-all duration-300" data-id="${p.id}">Detalhes</button>
+            <div class="text-blue-600 dark:text-blue-400 font-bold">${p.price}</div>
+            <button class="btn-view bg-blue-600 dark:bg-blue-500 text-white px-3 py-1 rounded text-sm opacity-0 translate-y-2 transition-all duration-300" data-id="${p.id}">Detalhes</button>
           </div>
-        </div>
-      `;
-
+        </div>`;
       container.appendChild(card);
     });
-
-    // Botão "Ver Mais"
-    if (produtosCat.length > 3) {
-      const verMaisCard = document.createElement('div');
-      verMaisCard.className = 'col-span-full flex justify-center mt-4';
-      const verMaisBtn = document.createElement('button');
-      verMaisBtn.className = 'bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition';
-      verMaisBtn.textContent = 'Ver Mais';
-      verMaisCard.appendChild(verMaisBtn);
-      container.appendChild(verMaisCard);
-
-      verMaisBtn.addEventListener('click', () => {
-        const hiddenCards = Array.from(container.children).filter(c => c.tagName === "ARTICLE" && c.style.display === 'none');
-        if (hiddenCards.length > 0) {
-          hiddenCards.forEach(c => c.style.display = 'block');
-          verMaisBtn.textContent = 'Ver Menos';
-        } else {
-          Array.from(container.children).forEach((c, i) => {
-            if (c.tagName === "ARTICLE") c.style.display = i < 3 ? 'block' : 'none';
-          });
-          verMaisBtn.textContent = 'Ver Mais';
+    if(produtosCat.length>3){
+      const verMaisCard=document.createElement('div');verMaisCard.className='col-span-full flex justify-center mt-4';
+      const verMaisBtn=document.createElement('button');verMaisBtn.className='bg-blue-500 dark:bg-blue-400 text-white px-6 py-2 rounded hover:bg-blue-600 dark:hover:bg-blue-500 transition';verMaisBtn.textContent='Ver Mais';
+      verMaisCard.appendChild(verMaisBtn);container.appendChild(verMaisCard);
+      verMaisBtn.addEventListener('click',()=>{
+        const hiddenCards=Array.from(container.children).filter(c=>c.tagName==="ARTICLE"&&c.style.display==='none');
+        if(hiddenCards.length>0){hiddenCards.forEach(c=>c.style.display='block');verMaisBtn.textContent='Ver Menos';}else{
+          Array.from(container.children).forEach((c,i)=>{if(c.tagName==="ARTICLE") c.style.display=i<3?'block':'none';});verMaisBtn.textContent='Ver Mais';
         }
       });
     }
   }
+  renderCategory('catalogNovos',list.filter(p=>p.category.toLowerCase()==='novo'));
+  renderCategory('catalogSeminovos',list.filter(p=>p.category.toLowerCase()==='seminovo'));
+  renderCategory('catalogAcessorios',list.filter(p=>p.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,'')==='acessorios'));
 
-  renderCategory("catalogNovos", list.filter(p=>p.category.toLowerCase()==='novo'));
-  renderCategory("catalogSeminovos", list.filter(p=>p.category.toLowerCase()==='seminovo'));
-  renderCategory("catalogAcessorios", list.filter(p=>p.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,'')==='acessorios'));
-
-  // Botão detalhes abre modal
   $$('.btn-view').forEach(btn=>{
-    const card = btn.closest('.card-hover');
-
-    // Hover animation do botão
-    card.addEventListener('mouseenter',()=> btn.classList.remove('opacity-0','translate-y-2'));
-    card.addEventListener('mouseleave',()=> btn.classList.add('opacity-0','translate-y-2'));
-
+    const card=btn.closest('.card-hover');
+    card.addEventListener('mouseenter',()=>btn.classList.remove('opacity-0','translate-y-2'));
+    card.addEventListener('mouseleave',()=>btn.classList.add('opacity-0','translate-y-2'));
     btn.addEventListener('click',e=>{
-      const id = e.currentTarget.dataset.id;
-      const prod = allProducts.find(x=>x.id==id);
+      const id=e.currentTarget.dataset.id;
+      const prod=allProducts.find(x=>x.id==id);
       if(prod) openProductModal(prod);
     });
   });
 }
 
-
-// Função abre modal com informações do produto
-const modal = $('#productModal');
+const modal=$('#productModal');
 function openProductModal(p){
-  $('#modalImage').src = p.images[0];
-  $('#modalTitle').textContent = p.name;
-  $('#modalDesc').textContent = p.description;
-
-  const specsList = $('#modalspecs');
-  specsList.innerHTML = '';
-  if(Array.isArray(p.specs)){
-    p.specs.forEach(s=>{
-      const li = document.createElement('li');
-      li.textContent = s;
-      specsList.appendChild(li);
-    });
-  }
-
-  $('#modalPrice').textContent = p.price;
-  modal.classList.add('active'); 
-  modal.setAttribute('aria-hidden','false');
-
-  // Bloqueia fundo
-  document.body.classList.add('modal-open');
-
-  // Comprar via WhatsApp
-  $('#buyWhatsappBtn').onclick = ()=>{
-    const name = encodeURIComponent($('#modalCustomerName').value.trim() || 'Cliente');
-    const msg = encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
+  $('#modalImage').src=p.images[0];
+  $('#modalTitle').textContent=p.name;
+  $('#modalDesc').textContent=p.description;
+  const specsList=$('#modalspecs');specsList.innerHTML='';
+  if(Array.isArray(p.specs)) p.specs.forEach(s=>{const li=document.createElement('li');li.textContent=s;specsList.appendChild(li);});
+  $('#modalPrice').textContent=p.price;
+  modal.classList.add('active');document.body.classList.add('modal-open');
+  $('#buyWhatsappBtn').onclick=()=>{
+    const name=encodeURIComponent($('#modalCustomerName').value.trim()||'Cliente');
+    const msg=encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`,'_blank');
   };
 }
+const closeModal=()=>{modal.classList.remove('active');document.body.classList.remove('modal-open');};
+$('#closeProductModal').addEventListener('click',closeModal);
+$('#closeModalBtn').addEventListener('click',closeModal);
+$('#modalOverlay').addEventListener('click',closeModal);
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal();});
+document.addEventListener('DOMContentLoaded',()=>{loadProducts();});
 
-// Fecha modal
-const closeModal = () => {
-  modal.classList.remove('active');
-  modal.setAttribute('aria-hidden','true');
-  document.body.classList.remove('modal-open'); // Libera fundo
-};
-
-$('#closeProductModal').addEventListener('click', closeModal);
-$('#modalOverlay').addEventListener('click', closeModal);
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
-
-// Menu mobile toggle
-$('#menuToggle').addEventListener('click',()=>$('#mobileMenu').classList.toggle('show'));
-
-// Scroll to top
-window.addEventListener('scroll',()=>{$('#scrollTopBtn').style.display=window.scrollY>300?'block':'none';});
-$('#scrollTopBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-
-// Ordenação de produtos
-$('#sortSelect').addEventListener('change',()=>{
-  let sorted = [...allProducts];
-  const option = $('#sortSelect').value;
-  if(option === 'price-asc'){
-    sorted.sort((a,b)=>a.rawPrice - b.rawPrice);
-  }else if(option === 'price-desc'){
-    sorted.sort((a,b)=>b.rawPrice - a.rawPrice);
-  }
-  renderProducts(sorted);
+// Pesquisa simples
+$('#searchBtn').addEventListener('click',()=>{
+  const q=$('#searchInput').value.toLowerCase();
+  renderProducts(allProducts.filter(p=>p.name.toLowerCase().includes(q)||p.description.toLowerCase().includes(q)));
 });
-
-// Carrega produtos ao iniciar
-document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
 </script>
-
-<!-- Contato Futurista -->
-<section id="contato" class="py-24 bg-gradient-to-br from-purple-50 via-blue-50 to-green-50 relative overflow-hidden">
-  <div class="container mx-auto px-4 relative z-10">
-    <h2 class="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-16">Fale Conosco</h2>
-
-    <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-
-      <!-- WhatsApp Card -->
-      <div class="bg-white/20 backdrop-blur-md border border-white/30 rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform transition hover:-translate-y-6 hover:shadow-2xl hover:scale-105">
-        <div class="w-24 h-24 rounded-full flex items-center justify-center mb-6 relative">
-          <div class="w-full h-full bg-green-400 rounded-full blur-2xl opacity-30 absolute animate-ping-slow"></div>
-          <i class="fab fa-whatsapp text-green-600 text-4xl relative z-10"></i>
-        </div>
-        <h3 class="text-2xl font-bold text-gray-900 mb-3">WhatsApp</h3>
-        <p class="text-gray-800 mb-1">Segunda a Sexta: 7:30 - 17:30</p>
-        <p class="text-gray-800 mb-4">Sábado: 08:00 - 12:00</p>
-        <a href="https://wa.me/556499519504" class="text-green-600 font-semibold text-lg hover:text-green-500 hover:underline transition">Clique para chamar</a>
-      </div>
-
-      <!-- Endereço Card -->
-      <div class="bg-white/20 backdrop-blur-md border border-white/30 rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform transition hover:-translate-y-6 hover:shadow-2xl hover:scale-105">
-        <div class="w-24 h-24 rounded-full flex items-center justify-center mb-6 relative">
-          <div class="w-full h-full bg-blue-400 rounded-full blur-2xl opacity-30 absolute animate-ping-slow delay-1000"></div>
-          <i class="fas fa-map-marker-alt text-blue-600 text-4xl relative z-10"></i>
-        </div>
-        <h3 class="text-2xl font-bold text-gray-900 mb-3">Endereço</h3>
-        <p class="text-gray-800 mb-1">Av. Quarta, 94 - Centro</p>
-        <p class="text-gray-800 mb-4">Mineiros - GO</p>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Elementos decorativos animados -->
-  <div class="absolute top-10 left-10 w-72 h-72 bg-purple-300 rounded-full opacity-20 -z-10 animate-blob"></div>
-  <div class="absolute bottom-10 right-10 w-96 h-96 bg-green-300 rounded-full opacity-20 -z-10 animate-blob animation-delay-2000"></div>
-</section>
-
-<style>
-/* Animação dos blobs */
-@keyframes blob {
-  0%, 100% { transform: scale(1) translate(0, 0); }
-  33% { transform: scale(1.2) translate(20px, -20px); }
-  66% { transform: scale(0.8) translate(-20px, 20px); }
-}
-.animate-blob { animation: blob 10s infinite; }
-.animation-delay-2000 { animation-delay: 2s; }
-
-/* Ping suave nos ícones */
-@keyframes ping-slow {
-  0%, 100% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.5); opacity: 0; }
-}
-.animate-ping-slow { animation: ping-slow 2.5s infinite; }
-.delay-1000 { animation-delay: 1s; }
-</style>
-
-
-<!-- Footer -->
-<footer class="bg-gray-800 text-white py-8">
-  <div class="container mx-auto px-4">
-    <div class="flex flex-col md:flex-row justify-between items-center">
-      <div class="mb-4 md:mb-0">
-        <h3 class="text-xl font-bold mb-2">S.O.S Celulares</h3>
-        <p class="text-gray-400">Celulares novos e seminovos com garantia</p>
-      </div>
-      <div class="flex space-x-4">
-        <a href="https://www.instagram.com/s.o.scelulares_?igsh=czlla3JnaGc2OXg3" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
-        <a href="https://wa.me/556499519504" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp text-xl"></i></a>
-      </div>
-    </div>
-    <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
-      <p>&copy; 2023 S.O.S Celulares. Todos os direitos reservados.</p>
-    </div>
-  </div>
-</footer>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</body>
+</html>
