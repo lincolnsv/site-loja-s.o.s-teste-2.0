@@ -21,6 +21,11 @@
   .scroll-to-top { position: fixed; bottom: 2rem; right: 2rem; background: #2563eb; color: white; padding: 0.6rem 0.8rem; border-radius: 9999px; cursor: pointer; display: none; z-index: 80; transition: transform 0.15s; }
   .scroll-to-top:hover { transform: scale(1.06); }
   .hidden-on-small { display: none; } @media(min-width:768px){ .hidden-on-small { display: block; } }
+
+  /* BLOQUEIO DE FUNDO QUANDO O MODAL ESTÁ ABERTO */
+  body.modal-open {
+    overflow: hidden;
+  }
 </style>
 </head>
 <body class="font-sans text-gray-800">
@@ -273,6 +278,9 @@ function openProductModal(p){
   modal.classList.add('active'); 
   modal.setAttribute('aria-hidden','false');
 
+  // BLOQUEIA O FUNDO
+  document.body.classList.add('modal-open');
+
   $('#buyWhatsappBtn').onclick = ()=>{
     const name = encodeURIComponent($('#modalCustomerName').value.trim() || 'Cliente');
     const msg = encodeURIComponent(`Olá, meu nome é ${decodeURIComponent(name)}.\nEstou interessado no produto: ${p.name}.\nPreço: ${p.price}`);
@@ -280,9 +288,16 @@ function openProductModal(p){
   };
 }
 
-$('#closeProductModal').addEventListener('click',()=>{modal.classList.remove('active'); modal.setAttribute('aria-hidden','true');});
-$('#modalOverlay').addEventListener('click',()=>{modal.classList.remove('active'); modal.setAttribute('aria-hidden','true');});
-document.addEventListener('keydown',e=>{if(e.key==='Escape') modal.classList.remove('active');});
+const closeModal = () => {
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden','true');
+  // LIBERA O FUNDO
+  document.body.classList.remove('modal-open');
+};
+
+$('#closeProductModal').addEventListener('click', closeModal);
+$('#modalOverlay').addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
 $('#menuToggle').addEventListener('click',()=>$('#mobileMenu').classList.toggle('show'));
 window.addEventListener('scroll',()=>{$('#scrollTopBtn').style.display=window.scrollY>300?'block':'none';});
