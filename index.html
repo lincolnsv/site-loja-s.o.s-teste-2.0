@@ -181,19 +181,42 @@ searchInput.addEventListener('keypress', e => {
 </script>
 
 <!-- Hero / Banner principal -->
-<section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2">
+<section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 relative overflow-hidden">
   <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
-    <div class="md:w-1/2">
-      <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Celulares Novos e Seminovos com Garantia</h1>
-      <p class="text-lg md:text-xl mb-6">Os melhores preços e condições — peça pelo WhatsApp e receba atendimento rápido.</p>
-      <div class="flex gap-3">
-      <a href="#novos" class="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold hover:bg-gray-100">Ver Produtos</a>
-      <a href="https://wa.me/556499519504" target="_blank" class="bg-green-500 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold flex items-center gap-2 hover:bg-green-600">
-        <i class="fab fa-whatsapp"></i> Fale no WhatsApp
-      </a>
-
+    <div class="md:w-1/2 relative">
+      <!-- Conteúdo do texto com slides -->
+      <div id="textoSlider">
+        <div class="slide text-center md:text-left">
+          <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Celulares Novos e Seminovos com Garantia</h1>
+          <p class="text-lg md:text-xl mb-6">Os melhores preços e condições — peça pelo WhatsApp e receba atendimento rápido.</p>
+        </div>
+        <div class="slide text-center md:text-left hidden">
+          <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Promoções Imperdíveis!</h1>
+          <p class="text-lg md:text-xl mb-6">Descontos exclusivos em modelos selecionados.</p>
+        </div>
+        <div class="slide text-center md:text-left hidden">
+          <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Visite Nossa Loja Física</h1>
+          <p class="text-lg md:text-xl mb-6">Todos os produtos disponíveis para visualização no site e pedidos via WhatsApp.</p>
+        </div>
       </div>
+
+      <!-- Botões de ação -->
+      <div class="flex gap-3">
+        <a href="#novos" class="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold hover:bg-gray-100">Ver Produtos</a>
+        <a href="https://wa.me/556499519504" target="_blank" class="bg-green-500 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold flex items-center gap-2 hover:bg-green-600">
+          <i class="fab fa-whatsapp"></i> Fale no WhatsApp
+        </a>
+      </div>
+
+      <!-- Setas para mudar o texto -->
+      <button id="prevTexto" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition">
+        <i class="fas fa-chevron-left text-blue-600"></i>
+      </button>
+      <button id="nextTexto" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow hover:bg-gray-100 transition">
+        <i class="fas fa-chevron-right text-blue-600"></i>
+      </button>
     </div>
+
     <div class="md:w-1/2 flex justify-center">
       <!-- Imagem que será alterada automaticamente -->
       <img id="destaqueImagem" src="imagens/realme-note-14s-1.png" alt="Smartphones" class="w-3/4 sm:w-2/3 md:w-2/3 rounded-xl shadow-lg">
@@ -218,7 +241,32 @@ setInterval(() => {
   indice = (indice + 1) % imagensNovos.length;
   destaque.src = imagensNovos[indice];
 }, 3000);
+
+// Texto slider
+const slides = document.querySelectorAll('#textoSlider .slide');
+let textoIndice = 0;
+
+function mostrarSlide(n) {
+  slides.forEach((slide, i) => slide.classList.toggle('hidden', i !== n));
+}
+
+document.getElementById('prevTexto').addEventListener('click', () => {
+  textoIndice = (textoIndice - 1 + slides.length) % slides.length;
+  mostrarSlide(textoIndice);
+});
+
+document.getElementById('nextTexto').addEventListener('click', () => {
+  textoIndice = (textoIndice + 1) % slides.length;
+  mostrarSlide(textoIndice);
+});
+
+// Rotação automática do texto a cada 5 segundos
+setInterval(() => {
+  textoIndice = (textoIndice + 1) % slides.length;
+  mostrarSlide(textoIndice);
+}, 3000);
 </script>
+
 
 <!-- Ordenação de produtos -->
 <div class="mb-8 flex items-center gap-3 px-4">
@@ -519,6 +567,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </footer>
+
 
 
 
