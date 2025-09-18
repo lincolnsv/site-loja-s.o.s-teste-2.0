@@ -181,9 +181,9 @@ searchInput.addEventListener('keypress', e => {
 </script>
 
 <!-- Hero / Banner principal -->
-<section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 relative overflow-hidden">
+<section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2">
   <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
-    <div class="md:w-1/2 relative">
+    <div class="md:w-1/2">
       <!-- Conteúdo do texto com slides -->
       <div id="textoSlider">
         <div class="slide text-center md:text-left">
@@ -207,7 +207,9 @@ searchInput.addEventListener('keypress', e => {
           <i class="fab fa-whatsapp"></i> Fale no WhatsApp
         </a>
       </div>
+    </div>
 
+    <div class="md:w-1/2 flex justify-center">
       <!-- Imagem que será alterada automaticamente -->
       <img id="destaqueImagem" src="imagens/realme-note-14s-1.png" alt="Smartphones" class="w-3/4 sm:w-2/3 md:w-2/3 rounded-xl shadow-lg">
     </div>
@@ -239,16 +241,6 @@ let textoIndice = 0;
 function mostrarSlide(n) {
   slides.forEach((slide, i) => slide.classList.toggle('hidden', i !== n));
 }
-
-document.getElementById('prevTexto').addEventListener('click', () => {
-  textoIndice = (textoIndice - 1 + slides.length) % slides.length;
-  mostrarSlide(textoIndice);
-});
-
-document.getElementById('nextTexto').addEventListener('click', () => {
-  textoIndice = (textoIndice + 1) % slides.length;
-  mostrarSlide(textoIndice);
-});
 
 // Rotação automática do texto a cada 5 segundos
 setInterval(() => {
@@ -557,6 +549,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </footer>
+
 
 
 
