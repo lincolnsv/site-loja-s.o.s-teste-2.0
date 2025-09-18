@@ -125,32 +125,59 @@
     </nav>
 
     <!-- Barra de pesquisa e menu mobile toggle -->
-<div class="flex items-center gap-4">
-  <div class="hidden md:flex items-center bg-white rounded-full px-3 py-1">
-    <input 
-      id="searchInput" 
-      type="search" 
-      placeholder="Pesquisar produtos..." 
-      class="outline-none text-sm px-2 text-black placeholder-gray-400"
-    />
-    <button id="searchBtn" class="text-blue-600 px-2">
-      <i class="fas fa-search"></i>
-    </button>
-  </div>
-  <button id="menuToggle" class="menu-toggle md:hidden">
-    <i class="fas fa-bars"></i>
-  </button>
-</div>
+    <div class="flex items-center gap-4">
+      <div class="hidden md:flex items-center bg-white rounded-full px-3 py-1">
+        <input 
+          id="searchInput" 
+          type="search" 
+          placeholder="Pesquisar produtos..." 
+          class="outline-none text-sm px-2 text-black placeholder-gray-400"
+        />
+        <button id="searchBtn" class="text-blue-600 px-2">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <button id="menuToggle" class="menu-toggle md:hidden">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
 
-
-  <!-- Menu mobile escondido por padrão -->
-  <div id="mobileMenu" class="mobile-menu px-4 pb-4 bg-blue-600">
-    <a href="#novos" class="text-white font-semibold">Novos</a>
-    <a href="#seminovos" class="text-white font-semibold">Seminovos</a>
-    <a href="#acessorios" class="text-white font-semibold">Acessórios</a>
-    <a href="#contato" class="text-white font-semibold">Contato</a>
-  </div>
+    <!-- Menu mobile escondido por padrão -->
+    <div id="mobileMenu" class="mobile-menu px-4 pb-4 bg-blue-600">
+      <a href="#novos" class="text-white font-semibold">Novos</a>
+      <a href="#seminovos" class="text-white font-semibold">Seminovos</a>
+      <a href="#acessorios" class="text-white font-semibold">Acessórios</a>
+      <a href="#contato" class="text-white font-semibold">Contato</a>
+    </div>
 </header>
+
+<!-- Script para barra de pesquisa -->
+<script>
+// Pega os elementos
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
+
+// Função que filtra produtos
+function pesquisar() {
+  const termo = searchInput.value.trim().toLowerCase();
+  if (!termo) return renderProducts(allProducts); // Se vazio, mostra todos
+
+  const filtrados = allProducts.filter(p =>
+    p.name.toLowerCase().includes(termo) ||
+    p.description.toLowerCase().includes(termo)
+  );
+
+  renderProducts(filtrados);
+}
+
+// Ao clicar na lupa
+searchBtn.addEventListener('click', pesquisar);
+
+// Ao apertar Enter no input
+searchInput.addEventListener('keypress', e => {
+  if (e.key === 'Enter') pesquisar();
+});
+</script>
 
 <!-- Hero / Banner principal -->
 <section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-16">
@@ -491,6 +518,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </footer>
+
 
 
 
