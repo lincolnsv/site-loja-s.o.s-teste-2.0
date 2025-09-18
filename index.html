@@ -171,10 +171,13 @@ function pesquisar() {
   renderProducts(filtrados);
 }
 
-// Ao clicar na lupa
+// Filtra enquanto o usuário digita
+searchInput.addEventListener('input', pesquisar);
+
+// Mantém a opção de pesquisar ao clicar na lupa
 searchBtn.addEventListener('click', pesquisar);
 
-// Ao apertar Enter no input
+// Mantém a opção de pesquisar ao apertar Enter
 searchInput.addEventListener('keypress', e => {
   if (e.key === 'Enter') pesquisar();
 });
@@ -559,6 +562,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </footer>
+
 
 
 
