@@ -355,7 +355,7 @@ function renderProducts(list){
     produtosCat.forEach((p, i)=>{
       const card = document.createElement('article');
       card.className='card-hover bg-white rounded-lg overflow-hidden shadow transition';
-      card.style.display = i < 3 ? 'block' : 'none'; // Mostra só os 3 primeiros
+      card.style.display = i < 4 ? 'block' : 'none'; // Agora mostra os 4 primeiros
 
       card.innerHTML=`
         <div class="relative h-48 bg-gray-100 flex items-center justify-center p-3 overflow-hidden">
@@ -375,7 +375,7 @@ function renderProducts(list){
     });
 
     // Botão "Ver Mais"
-    if (produtosCat.length > 3) {
+    if (produtosCat.length > 4) { // Ajustado para 4
       const verMaisCard = document.createElement('div');
       verMaisCard.className = 'col-span-full flex justify-center mt-4';
       const verMaisBtn = document.createElement('button');
@@ -391,7 +391,7 @@ function renderProducts(list){
           verMaisBtn.textContent = 'Ver Menos';
         } else {
           Array.from(container.children).forEach((c, i) => {
-            if (c.tagName === "ARTICLE") c.style.display = i < 3 ? 'block' : 'none';
+            if (c.tagName === "ARTICLE") c.style.display = i < 4 ? 'block' : 'none'; // Mostrar só os 4 primeiros
           });
           verMaisBtn.textContent = 'Ver Mais';
         }
@@ -402,6 +402,7 @@ function renderProducts(list){
   renderCategory("catalogNovos", list.filter(p=>p.category.toLowerCase()==='novo'));
   renderCategory("catalogSeminovos", list.filter(p=>p.category.toLowerCase()==='seminovo'));
   renderCategory("catalogAcessorios", list.filter(p=>p.category.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,'')==='acessorios'));
+
 
   // Botão detalhes abre modal
   $$('.btn-view').forEach(btn=>{
@@ -586,6 +587,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </footer>
+
 
 
 
