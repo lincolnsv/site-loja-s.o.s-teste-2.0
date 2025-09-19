@@ -492,8 +492,9 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     <h2 class="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-16">Fale Conosco</h2>
 
     <div class="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+
       <!-- WhatsApp Card -->
-      <div class="bg-white/20 backdrop-blur-md border border-white/30 rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform transition hover:-translate-y-6 hover:shadow-2xl hover:scale-105">
+      <div class="bg-white backdrop-blur-md border border-white/30 rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform transition hover:-translate-y-6 hover:shadow-2xl hover:scale-105">
         <div class="w-24 h-24 rounded-full flex items-center justify-center mb-6 relative">
           <div class="w-full h-full bg-green-400 rounded-full blur-2xl opacity-30 absolute animate-ping-slow"></div>
           <i class="fab fa-whatsapp text-green-600 text-4xl relative z-10"></i>
@@ -505,7 +506,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
       </div>
 
       <!-- Endereço Card -->
-      <div class="bg-white/20 backdrop-blur-md border border-white/30 rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform transition hover:-translate-y-6 hover:shadow-2xl hover:scale-105">
+      <div class="bg-white backdrop-blur-md border border-white/30 rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform transition hover:-translate-y-6 hover:shadow-2xl hover:scale-105">
         <div class="w-24 h-24 rounded-full flex items-center justify-center mb-6 relative">
           <div class="w-full h-full bg-blue-400 rounded-full blur-2xl opacity-30 absolute animate-ping-slow delay-1000"></div>
           <i class="fas fa-map-marker-alt text-blue-600 text-4xl relative z-10"></i>
@@ -516,7 +517,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
       </div>
 
       <!-- Pagamento Card -->
-      <div class="bg-white/20 backdrop-blur-md border border-white/30 rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform transition hover:-translate-y-6 hover:shadow-2xl hover:scale-105">
+      <div class="bg-white backdrop-blur-md border border-white/30 rounded-3xl shadow-xl p-10 flex flex-col items-center text-center transform transition hover:-translate-y-6 hover:shadow-2xl hover:scale-105">
         <div class="w-24 h-24 rounded-full flex items-center justify-center mb-6 relative">
           <div class="w-full h-full bg-yellow-400 rounded-full blur-2xl opacity-30 absolute animate-ping-slow delay-2000"></div>
           <i class="fas fa-credit-card text-yellow-600 text-4xl relative z-10"></i>
@@ -524,19 +525,20 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
         <h3 class="text-2xl font-bold text-gray-900 mb-3">Pagamento</h3>
         <div class="flex flex-wrap justify-center gap-6 mt-2">
           <div class="flex flex-col items-center">
-            <i class="fas fa-money-bill-wave text-green-600 text-2xl"></i>
+            <i class="fas fa-money-bill-wave text-green-600 text-2xl animate-pulse-payment delay-p1"></i>
             <span class="text-sm mt-1">Dinheiro</span>
           </div>
           <div class="flex flex-col items-center">
-            <i class="fas fa-qrcode text-blue-600 text-2xl"></i>
+            <i class="fas fa-qrcode text-blue-600 text-2xl animate-pulse-payment delay-p2"></i>
             <span class="text-sm mt-1">Pix</span>
           </div>
           <div class="flex flex-col items-center">
-            <i class="fas fa-credit-card text-yellow-600 text-2xl"></i>
+            <i class="fas fa-credit-card text-yellow-600 text-2xl animate-pulse-payment delay-p3"></i>
             <span class="text-sm mt-1">Cartão</span>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -544,7 +546,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
   <div class="absolute top-10 left-10 w-72 h-72 bg-purple-300 rounded-full opacity-20 -z-10 animate-blob"></div>
   <div class="absolute bottom-10 right-10 w-96 h-96 bg-green-300 rounded-full opacity-20 -z-10 animate-blob animation-delay-2000"></div>
 </section>
-
+  
 <style>
   /* Animação dos blobs */
   @keyframes blob {
@@ -662,6 +664,7 @@ window.addEventListener("resize",()=>{
     </div>
   </div>
 </footer>
+
 
 
 
