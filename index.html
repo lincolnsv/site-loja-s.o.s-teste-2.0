@@ -377,7 +377,7 @@ function renderProducts(list){
     produtosCat.forEach((p, i)=>{
       const card = document.createElement('article');
       card.className='card-hover bg-white rounded-lg overflow-hidden shadow transition';
-      card.style.display = i < 3 ? 'block' : 'none'; // Agora mostra os 4 primeiros
+      card.style.display = i < 3 ? 'block' : 'none'; // Agora mostra os 3 primeiros
 
       card.innerHTML=`
         <div class="relative h-48 bg-gray-100 flex items-center justify-center p-3 overflow-hidden">
@@ -397,7 +397,7 @@ function renderProducts(list){
     });
 
     // Botão "Ver Mais"
-    if (produtosCat.length > 3) { // Ajustado para 4
+    if (produtosCat.length > 3) { // Ajustado para 3
       const verMaisCard = document.createElement('div');
       verMaisCard.className = 'col-span-full flex justify-center mt-4';
       const verMaisBtn = document.createElement('button');
@@ -413,7 +413,7 @@ function renderProducts(list){
           verMaisBtn.textContent = 'Ver Menos';
         } else {
           Array.from(container.children).forEach((c, i) => {
-            if (c.tagName === "ARTICLE") c.style.display = i < 4 ? 'block' : 'none'; // Mostrar só os 4 primeiros
+            if (c.tagName === "ARTICLE") c.style.display = i < 3 ? 'block' : 'none'; // Mostrar só os 3 primeiros
           });
           verMaisBtn.textContent = 'Ver Mais';
         }
@@ -609,6 +609,7 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </footer>
+
 
 
 
