@@ -307,9 +307,7 @@ setInterval(() => {
       <div>
         <img id="modalImage" src="" alt="" class="w-full rounded-md object-contain max-h-96" />
 
-        <!-- Miniaturas -->
-        <div id="modalThumbnails" class="flex gap-2 overflow-x-auto">
-        <!-- Miniaturas serão geradas dinamicamente -->
+        
       </div>
       <div>
         <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
@@ -448,39 +446,12 @@ function renderProducts(list){
 
 
 // Função abre modal com informações do produto
+const modal = $('#productModal');
 function openProductModal(p){
-  const modalImage = $('#modalImage');
-  const thumbnailsContainer = $('#modalThumbnails');
-
-  // Imagem principal
-  modalImage.src = p.images[0];
-
-  // Limpa miniaturas anteriores
-  thumbnailsContainer.innerHTML = '';
-
-  // Cria miniaturas clicáveis
-  p.images.forEach((imgSrc, index)=>{
-    const thumb = document.createElement('img');
-    thumb.src = imgSrc;
-    thumb.className = 'w-16 h-16 object-contain rounded cursor-pointer border-2 border-transparent hover:border-blue-500 transition';
-    if(index === 0) thumb.classList.add('border-blue-500'); // primeira marcada
-
-    // Ao clicar, muda a imagem principal
-    thumb.addEventListener('click', ()=>{
-      modalImage.src = imgSrc;
-      Array.from(thumbnailsContainer.children).forEach(c => c.classList.remove('border-blue-500'));
-      thumb.classList.add('border-blue-500');
-    });
-
-    thumbnailsContainer.appendChild(thumb);
-  });
-
-  // Título, descrição e preço
+  $('#modalImage').src = p.images[0];
   $('#modalTitle').textContent = p.name;
   $('#modalDesc').textContent = p.description;
-  $('#modalPrice').textContent = p.price;
 
-  // Especificações
   const specsList = $('#modalspecs');
   specsList.innerHTML = '';
   if(Array.isArray(p.specs)){
@@ -491,10 +462,9 @@ function openProductModal(p){
     });
   }
 
-  // Abre o modal
+  $('#modalPrice').textContent = p.price;
   modal.classList.add('active'); 
   modal.setAttribute('aria-hidden','false');
-  document.body.classList.add('modal-open');
 
   // Bloqueia fundo
   document.body.classList.add('modal-open');
@@ -641,8 +611,6 @@ document.addEventListener('DOMContentLoaded',()=>{ loadProducts(); });
     </div>
   </div>
 </footer>
-
-
 
 
 
